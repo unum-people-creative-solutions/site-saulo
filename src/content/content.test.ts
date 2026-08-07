@@ -1,7 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import { galleryItems } from './gallery';
 import { processActs } from './process';
-import { siteAboutBlocks, siteContacts, siteHeroText, siteSocials } from './site';
+import {
+  siteAboutBlocks,
+  siteContacts,
+  siteHeroText,
+  siteSocials,
+  siteWhatsAppNumber,
+} from './site';
 import { testimonials } from './testimonials';
 import {
   GalleryItemSchema,
@@ -44,5 +50,9 @@ describe('content modules', () => {
     expect(siteHeroText.length).toBeGreaterThan(0);
     expect(siteAboutBlocks).toHaveLength(4);
     expect(siteSocials.map((s) => s.name)).toEqual(['Instagram', 'Pinterest']);
+  });
+
+  it('derives digits-only WhatsApp number from the public office phone', () => {
+    expect(siteWhatsAppNumber).toBe('5511982864003');
   });
 });

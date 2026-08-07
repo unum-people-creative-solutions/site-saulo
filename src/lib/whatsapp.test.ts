@@ -1,6 +1,8 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 
-import { buildWhatsAppUrl } from './whatsapp';
+import { siteWhatsAppNumber } from '@/content/site';
+
+import { buildWhatsAppUrl, resolveWhatsAppNumber } from './whatsapp';
 
 describe('buildWhatsAppUrl', () => {
   const number = '5511999999999';
@@ -60,6 +62,23 @@ describe('buildWhatsAppUrl', () => {
         'Tipo de projeto: reforma residencial',
         'E-mail: maria@example.com',
       ].join('\n'),
+    );
+  });
+
+  it('falls back to the public office number when env is missing', () => {
+    delete process.env.NEXT_PUBLIC_WHATSAPP_NUMBER;
+
+    expect(resolveWhatsAppNumber()).toBe(siteWhatsAppNumber);
+    expect(siteWhatsAppNumber).toBe('5511982864003');
+
+    const url = buildWhatsAppUrl({
+      nome: 'Maria Silva',
+      tipoProjeto: 'reforma residencial',
+      email: 'maria@example.com',
+    });
+
+    expect(url.startsWith(`https://wa.me/${siteWhatsAppNumber}?text=`)).toBe(
+      true,
     );
   });
 });

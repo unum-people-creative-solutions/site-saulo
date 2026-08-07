@@ -19,11 +19,9 @@ export function LeadModal() {
   const { isModalOpen, closeModal, origem, params, restoreTriggerFocus } =
     useLead();
   const [status, setStatus] = useState<ModalStatus>('form');
-  const [validatedData, setValidatedData] = useState<LeadFormData | null>(null);
 
   function resetLocalState() {
     setStatus('form');
-    setValidatedData(null);
   }
 
   function handleOpenChange(open: boolean) {
@@ -31,11 +29,6 @@ export function LeadModal() {
       closeModal();
       resetLocalState();
     }
-  }
-
-  function handleValid(data: LeadFormData) {
-    setValidatedData(data);
-    setStatus('form');
   }
 
   function buildPayload(data: LeadFormData) {
@@ -49,28 +42,23 @@ export function LeadModal() {
     };
   }
 
-  async function handleEmailSubmit() {
-    if (!validatedData) return;
-
+  async function handleEmailSubmit(data: LeadFormData) {
     setStatus('submitting');
     try {
-      await submitLead(buildPayload(validatedData), 'email');
+      await submitLead(buildPayload(data), 'email');
       setStatus('success');
     } catch {
       setStatus('error');
     }
   }
 
-  async function handleWhatsAppSubmit() {
-    if (!validatedData) return;
-
+  async function handleWhatsAppSubmit(data: LeadFormData) {
     setStatus('submitting');
-    await submitLead(buildPayload(validatedData), 'whatsapp');
-    window.location.href = buildWhatsAppUrl(validatedData);
+    await submitLead(buildPayload(data), 'whatsapp');
+    window.location.href = buildWhatsAppUrl(data);
   }
 
   const showForm = status === 'form' || status === 'submitting' || status === 'error';
-  const showActions = Boolean(validatedData) && status !== 'success';
   const busy = status === 'submitting';
 
   return (
@@ -104,42 +92,18 @@ export function LeadModal() {
           {showForm ? (
             <>
               <LeadForm
-                onValid={handleValid}
+                onEmailSubmit={handleEmailSubmit}
+                onWhatsAppSubmit={handleWhatsAppSubmit}
                 onInvalid={() => {
                   /* validation errors stay in the form */
                 }}
-                hideSubmit={Boolean(validatedData)}
+                busy={busy}
               />
 
               {status === 'error' ? (
                 <p className="lead-modal__error" role="alert">
                   Não foi possível enviar. Tente de novo.
                 </p>
-              ) : null}
-
-              {showActions ? (
-                <div
-                  className="lead-modal__actions"
-                  role="group"
-                  aria-label="ações de envio"
-                >
-                  <button
-                    type="button"
-                    className="lead-modal__action"
-                    disabled={busy}
-                    onClick={handleEmailSubmit}
-                  >
-                    enviar formulário
-                  </button>
-                  <button
-                    type="button"
-                    className="lead-modal__action"
-                    disabled={busy}
-                    onClick={handleWhatsAppSubmit}
-                  >
-                    falar agora no WhatsApp
-                  </button>
-                </div>
               ) : null}
             </>
           ) : null}

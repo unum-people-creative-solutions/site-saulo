@@ -1,5 +1,6 @@
 'use client';
 
+import { useRef } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, useForm } from 'react-hook-form';
 
@@ -10,13 +11,19 @@ import { SelectField } from './SelectField';
 import './LeadForm.css';
 
 export type LeadFormProps = {
-  onValid?: (data: LeadFormData) => void;
+  onEmailSubmit?: (data: LeadFormData) => void;
+  onWhatsAppSubmit?: (data: LeadFormData) => void;
   onInvalid?: () => void;
-  /** When true, hides the built-in submit — parent renders final CTAs. */
-  hideSubmit?: boolean;
+  busy?: boolean;
 };
 
-export function LeadForm({ onValid, onInvalid, hideSubmit = false }: LeadFormProps) {
+export function LeadForm({
+  onEmailSubmit,
+  onWhatsAppSubmit,
+  onInvalid,
+  busy = false,
+}: LeadFormProps) {
+  const submitModeRef = useRef<'email' | 'whatsapp'>('email');
   const {
     register,
     control,
@@ -45,7 +52,13 @@ export function LeadForm({ onValid, onInvalid, hideSubmit = false }: LeadFormPro
       className="lead-form"
       noValidate
       onSubmit={handleSubmit(
-        (data) => onValid?.(data),
+        (data) => {
+          if (submitModeRef.current === 'whatsapp') {
+            onWhatsAppSubmit?.(data);
+          } else {
+            onEmailSubmit?.(data);
+          }
+        },
         () => onInvalid?.(),
       )}
     >
@@ -123,11 +136,32 @@ export function LeadForm({ onValid, onInvalid, hideSubmit = false }: LeadFormPro
         {liveMessages.join(' · ')}
       </div>
 
-      {hideSubmit ? null : (
-        <button type="submit" className="lead-form__submit">
+      <div
+        className="lead-form__actions"
+        role="group"
+        aria-label="ações de envio"
+      >
+        <button
+          type="submit"
+          className="lead-form__submit"
+          disabled={busy}
+          onClick={() => {
+            submitModeRef.current = 'email';
+          }}
+        >
           enviar formulário
         </button>
-      )}
+        <button
+          type="submit"
+          className="lead-form__submit"
+          disabled={busy}
+          onClick={() => {
+            submitModeRef.current = 'whatsapp';
+          }}
+        >
+          falar agora no WhatsApp
+        </button>
+      </div>
     </form>
   );
 }

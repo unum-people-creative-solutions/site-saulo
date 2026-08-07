@@ -20,10 +20,14 @@ export async function fillLeadForm(
     .fill(overrides.mensagem ?? 'Quero reformar');
 }
 
-/** Submits the form to reveal the email / WhatsApp action CTAs. */
-export async function validateLeadForm(page: Page) {
-  await page.getByRole('button', { name: /enviar formulário/i }).click();
+/** Both CTAs are visible as soon as the modal opens — no prior submit required. */
+export async function expectLeadActionsVisible(page: Page) {
   await expect(page.getByRole('group', { name: /ações de envio/i })).toBeVisible();
+}
+
+/** @deprecated Prefer expectLeadActionsVisible — kept for call-site clarity in older specs. */
+export async function validateLeadForm(page: Page) {
+  await expectLeadActionsVisible(page);
 }
 
 export function emailSubmitButton(page: Page) {

@@ -35,11 +35,8 @@ async function fillValidForm(user: ReturnType<typeof userEvent.setup>) {
   await user.type(screen.getByLabelText('conte um pouco sobre'), 'Quero reformar');
 }
 
-async function validateAndGetActions(user: ReturnType<typeof userEvent.setup>) {
-  await user.click(screen.getByRole('button', { name: /enviar formulário/i }));
-
-  const actions = await screen.findByRole('group', { name: /ações de envio/i });
-  return actions;
+function getActions() {
+  return screen.getByRole('group', { name: /ações de envio/i });
 }
 
 describe('LeadModal', () => {
@@ -69,11 +66,11 @@ describe('LeadModal', () => {
       screen.getByRole('heading', { name: 'Vamos falar de arquitetura' }),
     ).toBeInTheDocument();
 
+    expect(getActions()).toBeInTheDocument();
     await fillValidForm(user);
-    const actions = await validateAndGetActions(user);
 
     await user.click(
-      within(actions).getByRole('button', { name: /enviar formulário/i }),
+      within(getActions()).getByRole('button', { name: /enviar formulário/i }),
     );
 
     await waitFor(() => {
@@ -100,10 +97,9 @@ describe('LeadModal', () => {
 
     await user.click(screen.getByRole('button', { name: 'abrir modal' }));
     await fillValidForm(user);
-    const actions = await validateAndGetActions(user);
 
     await user.click(
-      within(actions).getByRole('button', { name: /enviar formulário/i }),
+      within(getActions()).getByRole('button', { name: /enviar formulário/i }),
     );
 
     await waitFor(() => {
@@ -113,8 +109,7 @@ describe('LeadModal', () => {
     expect(screen.getByLabelText('nome')).toHaveValue('Maria Silva');
     expect(screen.getByLabelText('e-mail')).toHaveValue('maria@example.com');
 
-    const retryActions = screen.getByRole('group', { name: /ações de envio/i });
-    const retryButton = within(retryActions).getByRole('button', {
+    const retryButton = within(getActions()).getByRole('button', {
       name: /enviar formulário/i,
     });
     expect(retryButton).toBeEnabled();

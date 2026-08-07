@@ -82,44 +82,6 @@
   color: var(--color-oak, #b89067);
 }
 
-.lead-modal__actions {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--spacing-16, 1rem);
-  margin-top: var(--spacing-32, 2rem);
-}
-
-.lead-modal__action {
-  appearance: none;
-  border: none;
-  background: transparent;
-  padding: 0;
-  cursor: pointer;
-  color: var(--color-fg-on-dark, #fff);
-  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
-  font-weight: var(--type-label-weight);
-  font-size: var(--type-label-size);
-  letter-spacing: var(--type-label-tracking);
-  text-transform: lowercase;
-  text-decoration: underline;
-  text-underline-offset: 0.35em;
-}
-
-.lead-modal__action:hover:not(:disabled) {
-  opacity: 0.85;
-}
-
-.lead-modal__action:disabled {
-  cursor: wait;
-  opacity: 0.55;
-}
-
-.lead-modal__action:focus-visible {
-  outline: 2px solid var(--color-oak, #b89067);
-  outline-offset: 3px;
-}
-
 /* Form fields inherit white; muted labels on dark */
 .lead-modal__content .lead-field__label,
 .lead-modal__content .lead-form__textarea-label {

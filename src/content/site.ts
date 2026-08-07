@@ -5,6 +5,9 @@ export const siteContacts = {
     'Rua Fernando Falcão, 1111 — Mooca, Sala 407 — Ed. Bernini, São Paulo-SP, 03180-003',
 };
 
+/** Digits-only office number for `wa.me` (public contact). */
+export const siteWhatsAppNumber = siteContacts.phone.replace(/\D/g, '');
+
 export const siteSocials = [
   { name: 'Instagram', url: 'https://www.instagram.com/saulomagno.arquitetos' },
   { name: 'Pinterest', url: 'https://br.pinterest.com/saulomagno_' },

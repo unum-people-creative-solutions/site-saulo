@@ -43,7 +43,7 @@ Copie `.env.local.example` para `.env.local` e preencha:
 |---|---|
 | `NEXT_PUBLIC_API_GATEWAY_URL` | Base URL do API Gateway do CRM Unum People |
 | `CRM_API_KEY` | Chave de ingestão do CRM (`X-API-Key`). **Server-only** — nunca prefixar com `NEXT_PUBLIC_`, nunca acessar de Client Component. Usada por `src/lib/crm.ts`, que importa `server-only` para impedir isso em build |
-| `NEXT_PUBLIC_WHATSAPP_NUMBER` | Número do WhatsApp do escritório, usado no redirecionamento `wa.me` (feature `lead-capture`) |
+| `NEXT_PUBLIC_WHATSAPP_NUMBER` | Opcional. Override do número `wa.me`. Se omitido, usa o telefone público do escritório (`siteContacts` → `5511982864003`) |
 
 ## Fontes
 
