@@ -13,6 +13,10 @@ function toTelHref(phone: string): string {
   return `tel:${digits}`;
 }
 
+function toMapsHref(address: string): string {
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
+}
+
 const navLinks = [
   { href: '#sobre', label: 'SOBRE' },
   { href: '#processo', label: 'PROCESSO' },
@@ -104,7 +108,14 @@ export const FooterSection = forwardRef<FooterSectionHandle>(function FooterSect
 
             <div className="footer-section__column">
               <p className="footer-section__label">Endereço</p>
-              <p className="footer-section__address">{siteContacts.address}</p>
+              <a
+                className="footer-section__address"
+                href={toMapsHref(siteContacts.address)}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {siteContacts.address}
+              </a>
             </div>
           </div>
         </div>

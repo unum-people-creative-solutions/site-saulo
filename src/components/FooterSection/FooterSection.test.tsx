@@ -75,6 +75,26 @@ describe('FooterSection', () => {
     expect(email).toHaveAttribute('href', 'mailto:arquitetura@sauloarq.com');
   });
 
+  it('address opens Google Maps in a new tab with the full query', () => {
+    render(<FooterSection />);
+
+    const address = screen.getByRole('link', {
+      name: /Rua Fernando Falcão/i,
+    });
+    expect(address).toHaveAttribute(
+      'href',
+      expect.stringMatching(
+        /^https:\/\/www\.google\.com\/maps\/search\/\?api=1&query=/,
+      ),
+    );
+    expect(address.getAttribute('href')).toContain(
+      encodeURIComponent('Rua Fernando Falcão'),
+    );
+    expect(address).toHaveAttribute('target', '_blank');
+    expect(address.getAttribute('rel')).toMatch(/noopener/);
+    expect(address.getAttribute('rel')).toMatch(/noreferrer/);
+  });
+
   it('T29: CTA calls openModal and does not render wa.me href', async () => {
     const user = userEvent.setup();
     const { container } = render(<FooterSection />);
