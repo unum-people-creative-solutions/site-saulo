@@ -1,0 +1,107 @@
+.process-section {
+  position: relative;
+  z-index: 1;
+  isolation: isolate;
+  overflow: hidden;
+  color: var(--color-fg-on-dark);
+  padding-block: clamp(96px, 12vh, 200px);
+  padding-inline: var(--spacing-32);
+}
+
+.process-section__background {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-color: var(--color-ink);
+  background-image: url('/media/processo.png');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.process-section__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  /* Light uniform veil — just enough to settle the photo under white type. */
+  background: rgba(19, 15, 11, 0.35);
+  pointer-events: none;
+}
+
+.process-section__content {
+  position: relative;
+  z-index: 2;
+  max-width: 1440px;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-64);
+}
+
+.process-section__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-24);
+  max-width: 40rem;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.process-section__title {
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-serif), ui-serif, Georgia, serif;
+  font-weight: var(--type-display-weight);
+  font-size: var(--type-display-size);
+  letter-spacing: var(--type-display-tracking);
+}
+
+.process-section__subtitle {
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-weight: var(--type-body-weight);
+  font-size: var(--type-body-size);
+  letter-spacing: var(--type-body-tracking);
+  line-height: 1.6;
+}
+
+.process-section__cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-48);
+}
+
+@media (min-width: 640px) {
+  .process-section__cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .process-section__cards {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.process-section__closing {
+  margin: 0;
+  margin-inline: auto;
+  max-width: 48rem;
+  text-align: center;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-weight: var(--type-body-weight);
+  font-size: var(--type-body-size);
+  letter-spacing: var(--type-body-tracking);
+  line-height: 1.6;
+}
+
+.process-section__cta {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  font-size: var(--type-label-size);
+  letter-spacing: var(--type-label-tracking);
+  text-transform: uppercase;
+}

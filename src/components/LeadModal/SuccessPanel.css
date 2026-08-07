@@ -1,0 +1,35 @@
+.success-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-24);
+  padding: var(--spacing-24);
+  color: inherit;
+}
+
+.success-panel__message {
+  margin: 0;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-size: var(--type-body-size, 1rem);
+  line-height: 1.5;
+}
+
+.success-panel__close {
+  appearance: none;
+  align-self: flex-start;
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  color: var(--color-oak, #b89067);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-weight: var(--type-label-weight);
+  font-size: var(--type-label-size);
+  letter-spacing: var(--type-label-tracking);
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.success-panel__close:hover {
+  opacity: 0.85;
+}

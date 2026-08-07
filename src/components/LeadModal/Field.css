@@ -1,0 +1,76 @@
+.lead-field {
+  position: relative;
+  width: 100%;
+}
+
+.lead-field__control {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: var(--spacing-24) 0 var(--spacing-8);
+  border: none;
+  border-bottom: 1px solid currentColor;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  font-family: var(--font-serif), ui-serif, Georgia, serif;
+  font-size: var(--type-body-size);
+  font-weight: var(--type-body-weight);
+  letter-spacing: var(--type-body-tracking);
+  text-align: center;
+  appearance: none;
+}
+
+.lead-field__control:focus {
+  outline: none;
+  border-bottom-color: var(--color-oak);
+}
+
+.lead-field__control:focus-visible {
+  outline: 2px solid var(--color-oak);
+  outline-offset: 3px;
+}
+
+.lead-field__label {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  margin: 0;
+  pointer-events: none;
+  text-align: center;
+  font-family: var(--font-serif), ui-serif, Georgia, serif;
+  font-size: var(--type-body-size);
+  font-weight: var(--type-body-weight);
+  letter-spacing: var(--type-body-tracking);
+  color: var(--color-fg-muted);
+  transition:
+    transform var(--motion-micro),
+    font-size var(--motion-micro),
+    top var(--motion-micro);
+}
+
+.lead-field__control:focus ~ .lead-field__label,
+.lead-field__control:not(:placeholder-shown) ~ .lead-field__label,
+.lead-field__control--has-value ~ .lead-field__label {
+  top: 0;
+  transform: translateY(0);
+  font-size: var(--type-label-size);
+  letter-spacing: var(--type-label-tracking);
+  text-transform: lowercase;
+}
+
+.lead-field--error .lead-field__control {
+  border-bottom-color: var(--color-oak-deep);
+}
+
+.lead-field__error {
+  margin: var(--spacing-8) 0 0;
+  text-align: center;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-size: var(--type-meta-size);
+  font-weight: var(--type-meta-weight);
+  letter-spacing: var(--type-meta-tracking);
+  color: var(--color-oak-deep);
+}

@@ -1,0 +1,164 @@
+.lead-modal__overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: rgba(19, 15, 11, 0.92);
+}
+
+.lead-modal__content {
+  position: fixed;
+  inset: 0;
+  z-index: 51;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-height: none;
+  height: 100%;
+  overflow-y: auto;
+  padding:
+    clamp(2rem, 8vh, 4rem)
+    clamp(1.5rem, 6vw, 4rem);
+  background: transparent;
+  color: var(--color-fg-on-dark, #fff);
+  outline: none;
+}
+
+.lead-modal__content > *:not(.lead-modal__close) {
+  width: min(36rem, 100%);
+}
+
+.lead-modal__close {
+  position: absolute;
+  top: clamp(0.75rem, 3vh, 1.5rem);
+  right: clamp(0.75rem, 3vw, 1.5rem);
+  z-index: 1;
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-fg-on-dark, #fff);
+  cursor: pointer;
+}
+
+.lead-modal__close svg {
+  width: 20px;
+  height: 20px;
+}
+
+.lead-modal__close:hover {
+  opacity: 0.85;
+}
+
+.lead-modal__close:focus-visible {
+  outline: 2px solid var(--color-oak, #b89067);
+  outline-offset: 3px;
+}
+
+.lead-modal__title {
+  margin: 0 0 var(--spacing-32, 2rem);
+  font-family: var(--font-serif, Georgia, serif);
+  font-weight: 400;
+  font-size: clamp(1.5rem, 2vw, 2rem);
+  text-align: center;
+  color: var(--color-fg-on-dark, #fff);
+}
+
+.lead-modal__error {
+  margin: var(--spacing-16, 1rem) 0 0;
+  text-align: center;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-size: var(--type-meta-size, 12px);
+  font-weight: var(--type-meta-weight, 400);
+  letter-spacing: var(--type-meta-tracking, 0.08em);
+  color: var(--color-oak, #b89067);
+}
+
+.lead-modal__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-16, 1rem);
+  margin-top: var(--spacing-32, 2rem);
+}
+
+.lead-modal__action {
+  appearance: none;
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  color: var(--color-fg-on-dark, #fff);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-weight: var(--type-label-weight);
+  font-size: var(--type-label-size);
+  letter-spacing: var(--type-label-tracking);
+  text-transform: lowercase;
+  text-decoration: underline;
+  text-underline-offset: 0.35em;
+}
+
+.lead-modal__action:hover:not(:disabled) {
+  opacity: 0.85;
+}
+
+.lead-modal__action:disabled {
+  cursor: wait;
+  opacity: 0.55;
+}
+
+.lead-modal__action:focus-visible {
+  outline: 2px solid var(--color-oak, #b89067);
+  outline-offset: 3px;
+}
+
+/* Form fields inherit white; muted labels on dark */
+.lead-modal__content .lead-field__label,
+.lead-modal__content .lead-form__textarea-label {
+  color: var(--color-fg-muted-on-dark, rgba(255, 255, 255, 0.72));
+}
+
+.lead-modal__content .lead-field__error,
+.lead-modal__content .lead-form__live {
+  color: var(--color-oak, #b89067);
+}
+
+.lead-modal__content .lead-field__control:focus,
+.lead-modal__content .lead-form__textarea:focus {
+  border-bottom-color: var(--color-oak, #b89067);
+}
+
+.lead-modal__content .lead-field__control:focus-visible,
+.lead-modal__content .lead-form__textarea:focus-visible {
+  outline-color: var(--color-oak, #b89067);
+}
+
+.lead-modal__content .lead-field--error .lead-field__control {
+  border-bottom-color: var(--color-oak, #b89067);
+}
+
+/* Native select (“tipo de projeto”) — dark menu + white type */
+.lead-modal__content select.lead-field__control {
+  color: var(--color-fg-on-dark, #fff);
+  background-color: transparent;
+  color-scheme: dark;
+}
+
+.lead-modal__content select.lead-field__control option {
+  background-color: var(--color-ink, #130f0b);
+  color: var(--color-fg-on-dark, #fff);
+}
+
+.lead-modal__content select.lead-field__control option:checked,
+.lead-modal__content select.lead-field__control option:hover {
+  background-color: var(--color-ink-soft, #1c1713);
+  color: var(--color-fg-on-dark, #fff);
+}

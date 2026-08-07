@@ -1,0 +1,93 @@
+@import "tailwindcss";
+
+:root {
+  --background: var(--color-paper);
+  --foreground: var(--color-ink);
+
+  /* Motion */
+  --motion-micro: 180ms cubic-bezier(0, 0, 0.2, 1);
+  --motion-underline: 260ms cubic-bezier(0.16, 1, 0.3, 1);
+  --motion-entrance: 700ms cubic-bezier(0.16, 1, 0.3, 1);
+  --motion-stagger: 100ms;
+  --motion-header: 400ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Scrims */
+  --scrim-read: linear-gradient(to top, rgba(19, 15, 11, 0.7), transparent);
+  --scrim-process: radial-gradient(circle, rgba(19, 15, 11, 0.55), transparent 70%);
+  --scrim-modal: rgba(19, 15, 11, 0.92);
+
+  /* Type scale */
+  --type-wordmark-1-weight: 600;
+  --type-wordmark-1-size: 15px;
+  --type-wordmark-1-tracking: 0.62em;
+
+  --type-wordmark-2-weight: 300;
+  --type-wordmark-2-size: 15px;
+  --type-wordmark-2-tracking: 0.62em;
+
+  --type-display-weight: 400;
+  --type-display-size: clamp(30px, 2.4vw, 44px);
+  --type-display-tracking: -0.01em;
+
+  --type-hero-weight: 400;
+  --type-hero-size: clamp(22px, 1.9vw, 30px);
+
+  --type-label-weight: 400;
+  --type-label-size: 13px;
+  --type-label-tracking: 0.14em;
+
+  /* Content prose — storyboard client size (~13px), not the 16px reading bump. */
+  --type-body-weight: 300;
+  --type-body-size: 13px;
+  --type-body-tracking: 0.01em;
+
+  --type-meta-weight: 400;
+  --type-meta-size: 12px;
+  --type-meta-tracking: 0.08em;
+}
+
+@theme static {
+  --color-ink: #130F0B;
+  --color-ink-soft: #1C1713;
+  --color-paper: #EEECE9;
+  --color-paper-warm: #DAD9D2;
+  --color-oak: #B89067;
+  --color-oak-deep: #9D724D;
+  --color-earth: #5C5036;
+  --color-bark: #4B3F34;
+  --color-sage: #7E9070;
+  --color-fg-on-dark: #FFFFFF;
+  --color-fg-on-light: #130F0B;
+  --color-fg-muted: #6B6B6B;
+  /* Muted text on dark surfaces (not for light paper). */
+  --color-fg-muted-on-dark: rgba(255, 255, 255, 0.72);
+
+  --spacing-4: 4px;
+  --spacing-8: 8px;
+  --spacing-16: 16px;
+  --spacing-24: 24px;
+  --spacing-32: 32px;
+  --spacing-48: 48px;
+  --spacing-64: 64px;
+  --spacing-96: 96px;
+  --spacing-128: 128px;
+  --spacing-160: 160px;
+  --spacing-200: 200px;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Focus ring — base (dark surfaces) */
+:focus-visible {
+  outline: 2px solid var(--color-oak);
+  outline-offset: 3px;
+}
+
+/* Focus ring — light surfaces */
+.on-light :focus-visible {
+  outline-color: var(--color-oak-deep);
+}

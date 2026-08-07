@@ -1,0 +1,124 @@
+.testimonials-section {
+  background: var(--color-paper, #eeece9);
+  color: var(--color-fg-on-light, #130f0b);
+  /*
+   * Extra bottom padding is the bridge where "Iniciar um contato." first
+   * appears — on this section's paper, closer to the rising footer than to
+   * the testimonials widget. footerRise.ts reads this paddingBottom.
+   */
+  padding:
+    clamp(5rem, 12vh, 8rem)
+    var(--spacing-32, 32px)
+    clamp(10rem, 36vh, 22rem);
+}
+
+.testimonials-section__inner {
+  max-width: 40rem;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-32, 32px);
+}
+
+.testimonials-section__meta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-8, 8px);
+}
+
+.testimonials-section__counter,
+.testimonials-section__label {
+  margin: 0;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-size: var(--type-meta-size, 12px);
+  font-weight: var(--type-meta-weight, 400);
+  letter-spacing: var(--type-meta-tracking, 0.08em);
+  color: var(--color-fg-muted, #6b6b6b);
+}
+
+.testimonials-section__slide {
+  min-height: 12rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-32, 32px);
+}
+
+.testimonials-section__quote {
+  margin: 0;
+  font-family: var(--font-serif), ui-serif, Georgia, serif;
+  font-size: var(--type-body-size, 13px);
+  font-weight: var(--type-body-weight, 300);
+  line-height: 1.55;
+  color: var(--color-fg-muted, #6b6b6b);
+}
+
+.testimonials-section__author {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-16, 16px);
+}
+
+.testimonials-section__avatar {
+  border-radius: 50%;
+  object-fit: cover;
+  width: 56px;
+  height: 56px;
+  filter: grayscale(1);
+  flex-shrink: 0;
+}
+
+.testimonials-section__name {
+  margin: 0;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-size: var(--type-body-size, 16px);
+  font-weight: 400;
+  color: var(--color-fg-on-light, #130f0b);
+}
+
+.testimonials-section__project {
+  margin: 4px 0 0;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-size: var(--type-label-size, 13px);
+  font-weight: var(--type-body-weight, 300);
+  letter-spacing: 0.02em;
+  text-transform: lowercase;
+  color: var(--color-fg-muted, #6b6b6b);
+}
+
+.testimonials-section__progress {
+  position: relative;
+  width: 100%;
+  max-width: 7.5rem;
+  height: 1px;
+  background: var(--color-paper-warm, #dad9d2);
+  overflow: hidden;
+}
+
+.testimonials-section__progress-bar {
+  display: block;
+  height: 100%;
+  width: 100%;
+  background: var(--color-fg-on-light, #130f0b);
+  transform-origin: left center;
+  transform: scaleX(0);
+  animation-name: testimonials-progress;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+.testimonials-section__progress--paused .testimonials-section__progress-bar {
+  animation-play-state: paused;
+}
+
+@keyframes testimonials-progress {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .testimonials-section__progress-bar {
+    animation: none;
+    transform: scaleX(1);
+  }
+}

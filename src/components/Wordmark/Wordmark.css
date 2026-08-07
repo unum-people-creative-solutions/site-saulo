@@ -1,0 +1,17 @@
+.wordmark {
+  display: inline-flex;
+  line-height: 0;
+}
+
+.wordmark--stacked {
+  width: 100%;
+  max-width: 100%;
+}
+
+.wordmark__image {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  max-width: 100%;
+}

@@ -1,0 +1,231 @@
+/*
+ * The photo is a plain CSS background on the footer itself — it fills the
+ * *entire* footer (title, nav columns, bottom bar, all of it) completely
+ * and permanently, and never animates.
+ *
+ * `.footer-section__scrim` wraps all the footer's content and carries the
+ * darkening tint as its own solid-ish `background` (a gradient, no
+ * `url(...)`). It must be a genuine ANCESTOR of the text (not just an
+ * overlapping sibling): contrast checkers (axe, and real browsers if the
+ * photo fails to load) resolve an element's effective background by
+ * walking up the *DOM ancestor chain* for the first usable color — they
+ * don't reason about visual/paint overlap between unrelated siblings. Any
+ * ancestor with a `background-image` that includes `url(...)` is treated as
+ * indeterminate and skipped, so the photo has to live on an element the
+ * scrim sits *inside of*, not the other way around. It's decorative
+ * (`aria-hidden`) and has no image of its own, so it doesn't read as a
+ * competing content block — just a color wash the layout lives on.
+ *
+ * The scrim (not the footer) carries `min-height: 100svh` +
+ * `justify-content: space-between`, fitting the title, the nav columns,
+ * and the bottom bar into one screen — reaching the bottom of the page
+ * shows the whole footer *and* the whole image at once. `.footer-section`
+ * just wraps around it, sized to match. Only the title scrubs into place
+ * (see footerRise.ts): it starts offset upward, as if it still belonged to
+ * the section above, and settles into its resting spot exactly as the
+ * footer fills the whole screen.
+ */
+.footer-section {
+  position: relative;
+  background-color: var(--color-ink);
+  background-image: url('/media/footer.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.footer-section__scrim {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100svh;
+  gap: clamp(24px, 4vh, 48px);
+  color: var(--color-fg-on-dark);
+  /* padding-top clears the site's fixed header (~107px), which stays
+     pinned on top of every section, including this one. */
+  padding: clamp(130px, 16vh, 170px) var(--spacing-32) clamp(24px, 4vh, 48px);
+  /* Uniformly ≥0.85 ink — text isn't confined to one predictable spot on
+     the image (title near the top, nav/contact text in the middle, wordmark
+     at the bottom), so this can't fade out toward one edge the way a
+     single-purpose hero overlay could; it has to hold AA contrast for light
+     text everywhere in the footer. */
+  background: linear-gradient(
+    to top,
+    rgba(19, 15, 11, 0.88) 0%,
+    rgba(19, 15, 11, 0.86) 50%,
+    rgba(19, 15, 11, 0.85) 100%
+  );
+}
+
+.footer-section__title {
+  margin: 0;
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+  text-align: center;
+  font-family: var(--font-serif), ui-serif, Georgia, serif;
+  font-weight: var(--type-display-weight);
+  font-size: var(--type-display-size);
+  letter-spacing: var(--type-display-tracking);
+  /* Resting / reduced-motion color; footerRise scrubs ink → white. */
+  color: var(--color-fg-on-dark, #fff);
+}
+
+.footer-section__title .text-button {
+  color: inherit;
+}
+
+.footer-section__middle {
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: clamp(32px, 5vh, 64px);
+}
+
+.footer-section__nav {
+  width: 100%;
+}
+
+.footer-section__nav-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(24px, 4vw, 48px);
+}
+
+.footer-section__nav-list a {
+  color: inherit;
+  text-decoration: none;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-weight: var(--type-label-weight);
+  font-size: var(--type-label-size);
+  letter-spacing: var(--type-label-tracking);
+  text-transform: uppercase;
+}
+
+.footer-section__nav-list a:hover {
+  color: var(--color-oak);
+}
+
+.footer-section__columns {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: var(--spacing-48);
+  text-align: right;
+}
+
+.footer-section__columns .footer-section__list {
+  align-items: flex-end;
+}
+
+.footer-section__columns .footer-section__address {
+  margin-inline-start: auto;
+}
+
+.footer-section__label {
+  margin: 0 0 var(--spacing-16);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-weight: var(--type-label-weight);
+  font-size: var(--type-label-size);
+  letter-spacing: var(--type-label-tracking);
+  text-transform: uppercase;
+  color: var(--color-fg-muted-on-dark);
+}
+
+.footer-section__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-8);
+}
+
+.footer-section__list a {
+  color: inherit;
+  text-decoration: none;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-weight: var(--type-body-weight);
+  font-size: var(--type-body-size);
+  letter-spacing: var(--type-body-tracking);
+}
+
+.footer-section__list a:hover {
+  color: var(--color-oak);
+}
+
+.footer-section__address {
+  margin: 0;
+  max-width: 20rem;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-weight: var(--type-body-weight);
+  font-size: var(--type-body-size);
+  letter-spacing: var(--type-body-tracking);
+  line-height: 1.5;
+}
+
+.footer-section__bottom {
+  position: relative;
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: flex-start;
+  gap: var(--spacing-32);
+  /* Room for the absolutely centered back-to-top cue. */
+  min-height: 4.5rem;
+}
+
+.footer-section__brand {
+  display: flex;
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: min(22.4rem, 36.8vmin, 100%);
+}
+
+@media (max-width: 639px) {
+  .footer-section__brand {
+    flex-basis: 100%;
+    max-width: min(16rem, 56vw, 100%);
+  }
+
+  .footer-section__bottom {
+    padding-bottom: 5.5rem;
+  }
+}
+
+.footer-section__back-to-top {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-8, 8px);
+  color: inherit;
+  text-decoration: none;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-weight: var(--type-meta-weight, 400);
+  font-size: var(--type-meta-size, 12px);
+  letter-spacing: var(--type-meta-tracking, 0.08em);
+  text-transform: uppercase;
+}
+
+.footer-section__back-to-top-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.footer-section__back-to-top:hover {
+  color: var(--color-oak);
+}

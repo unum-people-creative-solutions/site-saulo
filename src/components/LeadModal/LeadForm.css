@@ -1,0 +1,99 @@
+.lead-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-48);
+  width: 100%;
+}
+
+.lead-form__live {
+  min-height: 1.25em;
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-size: var(--type-meta-size);
+  font-weight: var(--type-meta-weight);
+  letter-spacing: var(--type-meta-tracking);
+  color: var(--color-oak-deep);
+}
+
+.lead-form__live:empty {
+  min-height: 0;
+}
+
+.lead-form__textarea-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.lead-form__textarea {
+  display: block;
+  width: 100%;
+  min-height: 6rem;
+  margin: 0;
+  padding: var(--spacing-24) 0 var(--spacing-8);
+  border: none;
+  border-bottom: 1px solid currentColor;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  resize: vertical;
+  font-family: var(--font-serif), ui-serif, Georgia, serif;
+  font-size: var(--type-body-size);
+  font-weight: var(--type-body-weight);
+  letter-spacing: var(--type-body-tracking);
+  text-align: center;
+}
+
+.lead-form__textarea:focus {
+  outline: none;
+  border-bottom-color: var(--color-oak);
+}
+
+.lead-form__textarea:focus-visible {
+  outline: 2px solid var(--color-oak);
+  outline-offset: 3px;
+}
+
+.lead-form__textarea-label {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: var(--spacing-24);
+  transform: translateY(0);
+  margin: 0;
+  pointer-events: none;
+  text-align: center;
+  font-family: var(--font-serif), ui-serif, Georgia, serif;
+  font-size: var(--type-body-size);
+  font-weight: var(--type-body-weight);
+  letter-spacing: var(--type-body-tracking);
+  color: var(--color-fg-muted);
+  transition:
+    transform var(--motion-micro),
+    font-size var(--motion-micro),
+    top var(--motion-micro);
+}
+
+.lead-form__textarea:focus ~ .lead-form__textarea-label,
+.lead-form__textarea:not(:placeholder-shown) ~ .lead-form__textarea-label {
+  top: 0;
+  font-size: var(--type-label-size);
+  letter-spacing: var(--type-label-tracking);
+}
+
+.lead-form__submit {
+  appearance: none;
+  align-self: center;
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  color: inherit;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-weight: var(--type-label-weight);
+  font-size: var(--type-label-size);
+  letter-spacing: var(--type-label-tracking);
+  text-transform: lowercase;
+  text-decoration: underline;
+  text-underline-offset: 0.35em;
+}

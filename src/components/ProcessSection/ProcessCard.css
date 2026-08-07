@@ -1,0 +1,34 @@
+.process-card {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--spacing-16);
+  color: var(--color-fg-on-dark);
+}
+
+.process-card__markers {
+  text-align: center;
+  font-size: var(--type-label-size);
+  letter-spacing: 0.2em;
+  color: var(--color-oak);
+}
+
+.process-card__title {
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-weight: var(--type-label-weight);
+  font-size: var(--type-label-size);
+  letter-spacing: var(--type-label-tracking);
+  text-transform: uppercase;
+}
+
+.process-card__body {
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-weight: var(--type-body-weight);
+  font-size: var(--type-body-size);
+  letter-spacing: var(--type-body-tracking);
+  line-height: 1.6;
+}

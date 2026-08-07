@@ -1,0 +1,202 @@
+.hero-section {
+  position: relative;
+  z-index: 1;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  min-height: 100svh;
+  overflow: hidden;
+  color: var(--color-fg-on-dark, #fff);
+  /* Transparent — shared video lives on the fixed backdrop sibling. */
+  background: transparent;
+}
+
+/*
+ * Fixed shared backdrop for Hero + Sobre. Lives outside section overflow so
+ * it is never clipped. heroBackdrop.ts toggles --is-released when the Sobre
+ * pin ends (and on mobile when #sobre leaves the viewport).
+ */
+.hero-section__backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: var(--color-ink, #130f0b);
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity var(--motion-micro, 180ms cubic-bezier(0, 0, 0.2, 1)),
+    visibility var(--motion-micro, 180ms cubic-bezier(0, 0, 0.2, 1));
+}
+
+.hero-section__backdrop[data-released='true'] {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.hero-section__image-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.hero-section__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.hero-section__video {
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.hero-section__video[data-ready='true'] {
+  opacity: 1;
+}
+
+/*
+ * Soft-loop: keep the video fully opaque underneath. Only the canvas
+ * (frame 0) fades in on top — fading the video out at the same time let
+ * the ink backdrop bleed through and read as a dark dip.
+ */
+.hero-section__loop-frame {
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  pointer-events: none;
+}
+
+.hero-section__loop-frame[data-active='true'] {
+  opacity: 1;
+}
+
+/* Instant canvas hide after seek — video is already on matching frame 0. */
+.hero-section__loop-frame[data-loop-snap='true'] {
+  transition: none;
+}
+
+.hero-section__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: var(--scrim-read);
+  pointer-events: none;
+}
+
+.hero-section__content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  min-height: 100svh;
+  width: min(100%, 1440px);
+  margin-inline: auto;
+  padding:
+    clamp(24px, 4.5vh, var(--spacing-64, 64px))
+    clamp(24px, 7vw, 120px)
+    var(--spacing-96, 96px);
+}
+
+/*
+ * Single, persistent, transparent header — always position:fixed via plain
+ * CSS (not toggled by JS). It lives outside every section's DOM subtree
+ * (see HeroSection.tsx), so it can never be clipped by a section's
+ * `overflow: hidden` media layer or trapped inside a section's `isolation:
+ * isolate` stacking context. In full-motion mode, stickyHeader.ts scrubs its
+ * `y` transform from ~38vh down to 0 as the Hero scrolls — once that scrub
+ * completes, it simply stays glued to `top: 0` for the rest of the page,
+ * with no further JS needed and no change in appearance or DOM identity.
+ */
+.hero-section__header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-32, 32px);
+  padding: clamp(24px, 4.5vh, var(--spacing-64, 64px)) clamp(24px, 7vw, 120px);
+  background: transparent;
+  color: var(--color-fg-on-dark, #fff);
+  transition: color var(--motion-micro, 180ms cubic-bezier(0, 0, 0.2, 1));
+  pointer-events: auto;
+}
+
+/* Paper sections (galeria / depoimentos) — toggled by headerContrast.ts */
+.hero-section__header--on-light {
+  color: var(--color-fg-on-light, #130f0b);
+}
+
+.hero-section__header .text-button {
+  color: inherit;
+}
+
+.hero-section__header-group {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.hero-section__title {
+  margin: 0;
+  font: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+}
+
+.hero-section__phrase-wrap {
+  width: 100%;
+  margin-top: clamp(220px, 50vh, 460px);
+}
+
+.hero-section__phrase {
+  margin: 0;
+  width: min(46%, 32rem);
+  max-width: 100%;
+  margin-inline-start: 40%;
+  text-align: left;
+  font-family: var(--font-serif), ui-serif, Georgia, serif;
+  font-style: italic;
+  font-weight: var(--type-hero-weight, 400);
+  font-size: var(--type-hero-size, clamp(22px, 1.9vw, 30px));
+  line-height: 1.35;
+  color: var(--color-fg-on-dark, #fff);
+}
+
+.hero-section__cue {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  bottom: var(--spacing-32, 32px);
+  transform: translateX(-50%);
+}
+
+@media (max-width: 900px) {
+  .hero-section__content {
+    padding-top: var(--spacing-32, 32px);
+  }
+
+  .hero-section__header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: var(--spacing-32, 32px) clamp(24px, 7vw, 120px);
+  }
+
+  .hero-section__phrase-wrap {
+    margin-top: clamp(140px, 42vh, 320px);
+  }
+
+  .hero-section__phrase {
+    width: min(100%, 30rem);
+    margin-inline-start: auto;
+  }
+}

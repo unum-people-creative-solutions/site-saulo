@@ -1,0 +1,154 @@
+.gallery-section {
+  --gallery-pad-top: clamp(4.5rem, 12vh, 6.5rem);
+  --gallery-pad-bottom: clamp(1.5rem, 4vh, 2.5rem);
+  --gallery-card-gap: var(--spacing-24, 24px);
+  --gallery-track-gap: var(--spacing-64, 64px);
+  /* Content height of the track — used to derive card widths so the
+     horizontal strip is wider than the viewport (scroll/scrub works). */
+  --gallery-track-h: calc(
+    100svh - var(--gallery-pad-top) - var(--gallery-pad-bottom)
+  );
+
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  height: 100svh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-paper, #eeece9);
+  color: var(--color-fg-on-light, #130f0b);
+}
+
+.gallery-section__track {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  align-items: stretch;
+  gap: var(--gallery-track-gap);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  padding:
+    var(--gallery-pad-top)
+    var(--spacing-32, 32px)
+    var(--gallery-pad-bottom);
+  -webkit-overflow-scrolling: touch;
+}
+
+/*
+ * Full motion: GSAP pins .gallery-section and drives this transform from
+ * vertical scroll (galleryHorizontal.ts). The track must be `overflow:
+ * visible` here — see galleryHorizontal.ts for why.
+ */
+.gallery-section__track[data-motion-driven='true'] {
+  overflow: visible;
+  scroll-snap-type: none;
+}
+
+.gallery-section__track:focus-visible {
+  outline: 2px solid var(--color-oak, #b89067);
+  outline-offset: -2px;
+}
+
+/* --- Cards (storyboard: single / stack / quote) --- */
+
+.gallery-card {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  height: 100%;
+  min-width: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gallery-card-gap);
+  box-sizing: border-box;
+}
+
+.gallery-card__media {
+  position: relative;
+  overflow: hidden;
+  margin: 0;
+  min-height: 0;
+}
+
+.gallery-card__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 1) Simple — full-height portrait (width from track height × 3/4) */
+.gallery-card--single {
+  width: calc(var(--gallery-track-h) * 3 / 4);
+}
+
+.gallery-card--single .gallery-card__media {
+  width: 100%;
+  height: 100%;
+}
+
+/* 2) Stack — two landscapes; width from half-height × 16/10 */
+.gallery-card--stack {
+  width: calc(
+    (var(--gallery-track-h) - var(--gallery-card-gap)) / 2 * 16 / 10
+  );
+}
+
+.gallery-card--stack .gallery-card__media {
+  flex: 1 1 0;
+  width: 100%;
+  min-height: 0;
+}
+
+/* 3) Quote — text + reduced image (half the previous column width) */
+.gallery-card--quote {
+  width: min(16vw, 12rem);
+  justify-content: space-between;
+}
+
+.gallery-card__quote {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-16, 16px);
+  margin: 0;
+  text-align: center;
+}
+
+.gallery-card__quote-mark {
+  display: block;
+  width: clamp(2.475rem, 6.3vh, 4.05rem);
+  height: clamp(2.475rem, 6.3vh, 4.05rem);
+  flex-shrink: 0;
+  color: var(--color-fg-on-light, #130f0b);
+}
+
+.gallery-card__quote-text {
+  margin: 0;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-size: var(--type-body-size, 13px);
+  font-weight: var(--type-body-weight, 300);
+  letter-spacing: var(--type-body-tracking, 0.01em);
+  line-height: 1.5;
+  color: var(--color-fg-muted, #6b6b6b);
+  text-wrap: balance;
+}
+
+.gallery-card--quote .gallery-card__media {
+  flex: 0 0 auto;
+  width: 100%;
+}
+
+.gallery-card--quote .gallery-card__media--portrait {
+  aspect-ratio: 3 / 4;
+  max-height: 46%;
+}
+
+.gallery-card--quote .gallery-card__media--landscape {
+  aspect-ratio: 16 / 10;
+  max-height: 42%;
+}
