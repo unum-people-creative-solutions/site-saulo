@@ -180,6 +180,15 @@
   transform: translateX(-50%);
 }
 
+/* Full motion mode hides this cue's own arrow (ScrollCue.css) in favor of
+   the persistent ScrollArrow, fixed at the same bottom-center spot — push
+   the label up to clear it instead of sitting on top of it. */
+@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+  .hero-section__cue {
+    bottom: calc(var(--spacing-32, 32px) + 44px);
+  }
+}
+
 @media (max-width: 900px) {
   .hero-section__content {
     padding-top: var(--spacing-32, 32px);

@@ -49,27 +49,29 @@ Copie `.env.local.example` para `.env.local` e preencha:
 
 Self-hosted via `next/font/local`, sem requisição a CDN externo em runtime:
 
-- **Uncut Sans** — fonte da marca, fornecida pelo cliente (`resources-for-planing/Uncut-Sans-v1304/`), copiada para `public/fonts/uncut-sans/`.
-- **Tinos** — substitui Times New Roman (usada pelo cliente no storyboard, mas proprietária da Microsoft e não servível como webfont). Tinos é metric-compatible, licença SIL Open Font License, baixada do repositório [`google/fonts`](https://github.com/google/fonts) (`ofl/tinos/`) para `public/fonts/tinos/`.
+- **Uncut Sans** — fonte da marca (`--font-sans`), fornecida pelo cliente (`resources-for-planing/Uncut-Sans-v1304/`), copiada para `public/fonts/uncut-sans/`. Corpo de texto e links usam o corte **Light** (pedido explícito do cliente, mais fino que o Regular/Book); Semibold/Bold seguem reservados para o wordmark.
+- **Cormorant Garamond** — fonte serifada (`--font-serif`), licença SIL Open Font License, baixada do repositório [`google/fonts`](https://github.com/google/fonts) (`ofl/cormorantgaramond/`) para `public/fonts/cormorant-garamond/`. Substituiu a Tinos (removida) a pedido do cliente.
 
 ## Estado do projeto
 
-**As 5 features do TLC 2.0 estão implementadas e verificadas** (`foundation`, `narrative-sections`, `lead-capture`, `scroll-motion`, `polish-and-launch`). Em **2026-08-07** houve polish visual alinhado ao storyboard do cliente (processo, galeria, depoimentos, hero soft-loop, tipografia 13px, CookieBanner, LeadModal full-viewport com X de fechar). **Nenhum commit foi criado ainda** — a árvore de trabalho está intacta, aguardando revisão humana antes do primeiro commit.
+**As 5 features do TLC 2.0 estão implementadas e verificadas** (`foundation`, `narrative-sections`, `lead-capture`, `scroll-motion`, `polish-and-launch`). Publicado em `github.com/unum-people-creative-solutions/site-saulo`; revisão visual iterativa em andamento pós-lançamento (tipografia, motion, footer, depoimentos, processo).
 
 ### Assets em `public/media/`
 
 | Asset | Estado |
 |---|---|
-| `hero.jpg` / `hero-video.mp4` | ✅ publicados (soft-loop no vídeo; poster só em reduced-motion/saveData/erro) |
+| `hero-video.mp4` | ✅ publicado (soft-loop; sem imagem estática de fallback — reduced-motion/saveData/erro de vídeo mostram só o backdrop de tinta) |
 | `footer.jpg` | ✅ publicado |
 | `processo.png` | ✅ publicado (scrim flat sem blur) |
+| `galeria/` | pasta da galeria (placeholders até o grid final do cliente) |
+| `depoimentos/` | pasta dos avatares de depoimento (placeholders) |
 
 ### Placeholders / pendências do cliente
 
 Ver `TECH-DESIGN-site-saulo.md` §11; resumo:
 
-- Imagens da galeria + frases de manifesto (`isPlaceholder: true` em `src/content/gallery.ts`)
-- Depoimentos (textos, nomes, fotos) — ainda placeholder
+- Imagens da galeria + frases de manifesto (`isPlaceholder: true` em `src/content/gallery.ts` → `public/media/galeria/`)
+- Depoimentos (textos, nomes, fotos) — ainda placeholder (`public/media/depoimentos/`)
 - Copy real de Hero e Sobre (hoje lorem / provisório)
 - Vídeo do processo no modal (gravação + transcrição para legendas)
 - Storyboard mobile
@@ -93,3 +95,4 @@ Next.js 16 · React 19 · TypeScript (strict) · Tailwind CSS 4 · GSAP + Scroll
 - `AboutSection` virou Client Component exclusivamente para suportar esse contrato imperativo; o markup visível das seções permaneceu o mesmo.
 - `footerRise.ts` reforça a entrada por teclado no rodapé: ao focar um controle do footer antes do pin começar, a cena avança o scroll até o início real do range pinado e só então reafirma a visibilidade do alvo. Os E2Es `T45`/`T45b` cobrem a garantia visual na viewport, e `T45c` cobre a sincronização específica da aplicação.
 - O mesmo `footerRise.ts` ignora sincronização iniciada por ponteiro dentro do rodapé, evitando que um clique nas âncoras mova o scroll entre `focusin` e `click` e faça o alvo real do evento sair do link.
+- `ScrollArrow` é uma seta fixa persistente (fora de qualquer `<section>`, mesmo motivo do header — `overflow: hidden` nas seções corta descendentes `position: fixed`). `scrollArrow.ts` alterna sua posição/rotação (baixo → direita ao entrar na galeria → baixo → some no rodapé) e contraste (branco / tinta) via `ScrollTrigger`, só em full motion (`(min-width: 1024px) and (prefers-reduced-motion: no-preference)`); abaixo disso, a seta original dentro do Hero (`ScrollCue`) continua sendo o fallback.

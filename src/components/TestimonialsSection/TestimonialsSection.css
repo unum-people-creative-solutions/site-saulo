@@ -13,11 +13,17 @@
 }
 
 .testimonials-section__inner {
-  max-width: 40rem;
+  /* 30% narrower than the original 40rem. */
+  max-width: 28rem;
   margin-inline: auto;
   display: flex;
   flex-direction: column;
   gap: var(--spacing-32, 32px);
+}
+
+.testimonials-section__inner:focus-visible {
+  outline: 2px solid var(--color-oak, #b89067);
+  outline-offset: 8px;
 }
 
 .testimonials-section__meta {
@@ -46,7 +52,9 @@
 .testimonials-section__quote {
   margin: 0;
   font-family: var(--font-serif), ui-serif, Georgia, serif;
-  font-size: var(--type-body-size, 13px);
+  /* Bigger than body copy (13px) but a step down from the hero phrase's
+     scale (clamp(22px, 1.9vw, 30px)) — independent of --type-body-size. */
+  font-size: clamp(16px, 1.2vw, 19px);
   font-weight: var(--type-body-weight, 300);
   line-height: 1.55;
   color: var(--color-fg-muted, #6b6b6b);

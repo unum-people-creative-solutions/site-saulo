@@ -1,25 +1,6 @@
 import { render, waitFor } from '@testing-library/react';
 import { HeroMedia } from './HeroMedia';
 
-vi.mock('next/image', () => ({
-  default: function MockImage({
-    alt,
-    src,
-    className,
-    sizes,
-  }: {
-    alt: string;
-    src: string;
-    className?: string;
-    sizes?: string;
-  }) {
-    return (
-      // eslint-disable-next-line @next/next/no-img-element
-      <img alt={alt} src={src} className={className} sizes={sizes} />
-    );
-  },
-}));
-
 function mockMatchMedia(matches: boolean) {
   Object.defineProperty(window, 'matchMedia', {
     writable: true,
@@ -43,20 +24,22 @@ describe('HeroMedia', () => {
     delete (navigator as Navigator & { connection?: unknown }).connection;
   });
 
-  it('renders static image and no video when prefers-reduced-motion: reduce', async () => {
+  it('renders neither image nor video when prefers-reduced-motion: reduce', () => {
     mockMatchMedia(true);
 
+    // No waitFor: the mode-detecting effect is synchronous, so
+    // render()'s act() wrapper has already flushed it — asserting
+    // immediately (rather than on an eventually-true condition that's
+    // already true pre-effect) actually exercises the reduced-motion
+    // branch instead of trivially matching the initial 'pending' render.
     const { container } = render(<HeroMedia />);
 
-    await waitFor(() => {
-      expect(container.querySelector('img')).not.toBeNull();
-    });
-
     expect(container.querySelector('video')).toBeNull();
-    expect(container.querySelector('img')).toHaveAttribute('src', '/media/hero.jpg');
+    expect(container.querySelector('img')).toBeNull();
+    expect(container.innerHTML).toBe('');
   });
 
-  it('does not mount hero.jpg under the video when motion is allowed', async () => {
+  it('renders the video (no static image ever mounts) when motion is allowed', async () => {
     mockMatchMedia(false);
 
     const { container } = render(<HeroMedia />);
@@ -104,7 +87,7 @@ describe('HeroMedia', () => {
     });
   });
 
-  it('renders static image and no video when navigator.connection.saveData is true', async () => {
+  it('renders neither image nor video when navigator.connection.saveData is true', () => {
     mockMatchMedia(false);
     Object.defineProperty(navigator, 'connection', {
       configurable: true,
@@ -113,12 +96,7 @@ describe('HeroMedia', () => {
 
     const { container } = render(<HeroMedia />);
 
-    await waitFor(() => {
-      const image = container.querySelector('img');
-      expect(image).not.toBeNull();
-      expect(image).toHaveAttribute('src', '/media/hero.jpg');
-    });
-
     expect(container.querySelector('video')).toBeNull();
+    expect(container.innerHTML).toBe('');
   });
 });

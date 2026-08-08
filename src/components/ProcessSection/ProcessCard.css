@@ -8,9 +8,10 @@
 
 .process-card__markers {
   text-align: center;
-  font-size: var(--type-label-size);
+  font-size: 22px;
+  font-weight: 700;
   letter-spacing: 0.2em;
-  color: var(--color-oak);
+  color: var(--color-fg-on-dark);
 }
 
 .process-card__title {

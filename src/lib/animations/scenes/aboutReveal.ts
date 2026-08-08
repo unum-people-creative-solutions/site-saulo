@@ -5,7 +5,8 @@ import { gsap } from '../gsap-context';
  * Initial state uses opacity only — never display/visibility — so content
  * remains present under reduced-motion when this scene does not run.
  *
- * Scroll distance scales with block count (N blocks → +=(N-1)*100%).
+ * Scroll distance scales with block count (N blocks → +=(N-1)*60%) — 60%
+ * per block instead of 100%, so text appears faster relative to scroll.
  */
 export function aboutReveal(
   sectionEl: HTMLElement,
@@ -13,7 +14,7 @@ export function aboutReveal(
 ): void {
   gsap.set(blockEls, { opacity: 0, y: 24 });
 
-  const scrubDistance = `${Math.max(blockEls.length - 1, 1) * 100}%`;
+  const scrubDistance = `${Math.max(blockEls.length - 1, 1) * 60}%`;
 
   const tl = gsap.timeline({
     scrollTrigger: {

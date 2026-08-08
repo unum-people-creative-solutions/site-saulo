@@ -17,8 +17,8 @@
 }
 
 .scroll-cue__icon {
-  width: 16px;
-  height: 16px;
+  font-size: 26px;
+  line-height: 1;
 }
 
 @keyframes scroll-cue-pulse {
@@ -36,5 +36,14 @@
 @media (prefers-reduced-motion: reduce) {
   .scroll-cue {
     animation: none;
+  }
+}
+
+/* Full motion mode hands the arrow off to the persistent ScrollArrow
+   (fixed to the viewport, tracks gallery/footer) — keep only the label
+   here so there's no second arrow on screen. */
+@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+  .scroll-cue__icon {
+    display: none;
   }
 }

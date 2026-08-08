@@ -95,7 +95,7 @@
   border: none;
   background: transparent;
   padding: 0;
-  cursor: pointer;
+  cursor: var(--cursor-plus);
   color: inherit;
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
   font-weight: var(--type-label-weight);

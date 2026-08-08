@@ -3,9 +3,16 @@
   z-index: 1;
   isolation: isolate;
   overflow: hidden;
+  min-height: 100svh;
   color: var(--color-fg-on-dark);
   padding-block: clamp(96px, 12vh, 200px);
   padding-inline: var(--spacing-32);
+}
+
+@media (max-width: 900px) {
+  .process-section {
+    min-height: auto;
+  }
 }
 
 .process-section__background {
@@ -32,10 +39,18 @@
   position: relative;
   z-index: 2;
   max-width: 1440px;
+  min-height: calc(100svh - (2 * clamp(96px, 12vh, 200px)));
   margin-inline: auto;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: var(--spacing-64);
+}
+
+@media (max-width: 900px) {
+  .process-section__content {
+    min-height: auto;
+  }
 }
 
 .process-section__header {

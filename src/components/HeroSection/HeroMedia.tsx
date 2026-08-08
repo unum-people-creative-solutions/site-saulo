@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import Image from 'next/image';
 
 const HERO_VIDEO_SRC = '/media/hero-video.mp4';
 /** Crossfade end→start via canvas (ms). */
@@ -44,9 +43,11 @@ function delay(ms: number): Promise<void> {
 /**
  * Soft-loop: one <video> + a canvas holding frame 0.
  *
- * `hero.jpg` is not preloaded under the video (it flashed on reload). At the
- * loop seam the video stays opaque; only the canvas fades in on top so the
- * ink backdrop never bleeds through as a dark dip.
+ * At the loop seam the video stays opaque; only the canvas fades in on top
+ * so the ink backdrop never bleeds through as a dark dip. When video is
+ * unavailable (reduced motion, saveData, playback failure) nothing renders
+ * here at all — the hero's own ink backdrop (HeroSection.css) shows through
+ * on its own instead of a static photo.
  */
 export function HeroMedia() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -138,21 +139,10 @@ export function HeroMedia() {
     }
   }
 
-  const showStill = mode === 'static' || videoFailed;
   const showVideo = mode === 'video' && !videoFailed;
 
   return (
     <>
-      {showStill ? (
-        <Image
-          className="hero-section__image"
-          src="/media/hero.jpg"
-          alt=""
-          fill
-          priority={mode === 'static'}
-          sizes="100vw"
-        />
-      ) : null}
       {showVideo ? (
         <>
           <video

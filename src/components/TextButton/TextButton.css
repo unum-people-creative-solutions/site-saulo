@@ -3,7 +3,7 @@
   background: none;
   border: none;
   padding: 0 0 2px;
-  cursor: pointer;
+  cursor: var(--cursor-plus);
   color: inherit;
   font: inherit;
   text-decoration: none;

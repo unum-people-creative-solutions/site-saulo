@@ -44,6 +44,11 @@
   --type-meta-weight: 400;
   --type-meta-size: 12px;
   --type-meta-tracking: 0.08em;
+
+  /* Site-wide cursor. Options in public/cursors/:
+     - plus.svg         → bare + (VscAdd)
+     - plus-circle.svg  → + inside a thin circle (active) */
+  --cursor-plus: url('/cursors/plus-circle.svg') 16 16, crosshair;
 }
 
 @theme static {
@@ -56,6 +61,8 @@
   --color-earth: #5C5036;
   --color-bark: #4B3F34;
   --color-sage: #7E9070;
+  /* Sampled from the client's logo moodboard (resources-for-planing/logos_saulo.jpeg). */
+  --color-stone: #7C7E73;
   --color-fg-on-dark: #FFFFFF;
   --color-fg-on-light: #130F0B;
   --color-fg-muted: #6B6B6B;
@@ -75,10 +82,46 @@
   --spacing-200: 200px;
 }
 
+html,
+body {
+  cursor: var(--cursor-plus);
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Keep the + on interactive chrome — never the default hand pointer. */
+a,
+button,
+label,
+summary,
+select,
+[role='button'],
+[role='link'],
+input[type='button'],
+input[type='submit'],
+input[type='reset'],
+input[type='checkbox'],
+input[type='radio'],
+input[type='file'] {
+  cursor: var(--cursor-plus);
+}
+
+input:not([type='button']):not([type='submit']):not([type='reset']):not(
+    [type='checkbox']
+  ):not([type='radio']):not([type='file']),
+textarea,
+[contenteditable='true'] {
+  cursor: text;
+}
+
+:disabled,
+[aria-disabled='true'],
+.cursor-not-allowed {
+  cursor: not-allowed;
 }
 
 /* Focus ring — base (dark surfaces) */

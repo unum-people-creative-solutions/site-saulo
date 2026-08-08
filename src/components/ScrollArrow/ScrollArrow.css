@@ -1,0 +1,103 @@
+/*
+ * Persistent scroll-direction arrow — full motion mode only (below
+ * 1024px / reduced-motion, the hero's own ScrollCue arrow is used
+ * instead; see ScrollCue.css). Fixed to the viewport so it survives
+ * every section's `overflow: hidden` (same reasoning as the header —
+ * see HeroSection.tsx).
+ *
+ * scrollArrow.ts toggles `data-state` (down / right / hidden) and the
+ * `--on-light` class as the page scrolls through the gallery (light
+ * background) and testimonials (also light) sections.
+ */
+.scroll-arrow {
+  display: none;
+  position: fixed;
+  z-index: 30;
+  pointer-events: none;
+  /* left/top/right/bottom flip between a set value and `auto` across
+     states, which browsers can't interpolate — only opacity and the
+     icon's own rotation transition smoothly; the position swap itself
+     is a snap. */
+  transition: opacity 0.4s ease;
+}
+
+.scroll-arrow__icon {
+  display: block;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 400; /* Uncut Sans Regular / Book — same glyph as ScrollCue */
+  font-size: 26px;
+  line-height: 1;
+  color: var(--color-ink, #130f0b);
+  /* Paper halo under ink fill — same dual-tone trick as the + cursor. */
+  -webkit-text-stroke: 2.75px var(--color-paper, #eeece9);
+  paint-order: stroke fill;
+  transition: transform 0.4s ease;
+}
+
+.scroll-arrow[data-state='down'] {
+  left: 50%;
+  bottom: var(--spacing-32, 32px);
+  top: auto;
+  right: auto;
+  opacity: 1;
+  animation: scroll-arrow-pulse-down 2.4s ease-in-out infinite;
+}
+
+.scroll-arrow[data-state='right'] {
+  right: var(--spacing-32, 32px);
+  top: 50%;
+  left: auto;
+  bottom: auto;
+  opacity: 1;
+  animation: scroll-arrow-pulse-right 2.4s ease-in-out infinite;
+}
+
+.scroll-arrow[data-state='right'] .scroll-arrow__icon {
+  transform: rotate(-90deg);
+}
+
+.scroll-arrow[data-state='hidden'] {
+  opacity: 0;
+  animation: none;
+}
+
+/* Same pulse as .scroll-cue (ScrollCue.css): opacity 0.55→1, 4px nudge in
+   the direction the arrow points. Kept as two variants (not shared)
+   because the base transform differs per state — translateX(-50%) centers
+   'down' horizontally, translateY(-50%) centers 'right' vertically — and
+   the animation shorthand replaces that transform outright each frame. */
+@keyframes scroll-arrow-pulse-down {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(4px);
+  }
+}
+
+@keyframes scroll-arrow-pulse-right {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: translateY(-50%) translateX(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-50%) translateX(4px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-arrow {
+    animation: none;
+  }
+}
+
+@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+  .scroll-arrow {
+    display: block;
+  }
+}

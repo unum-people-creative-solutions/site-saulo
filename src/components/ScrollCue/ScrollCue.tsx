@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { ArrowDown } from 'lucide-react';
 import './ScrollCue.css';
 
 export function ScrollCue() {
@@ -20,7 +19,9 @@ export function ScrollCue() {
   return (
     <div className="scroll-cue" aria-hidden="true">
       <span className="scroll-cue__label">(scroll down)</span>
-      <ArrowDown className="scroll-cue__icon" strokeWidth={1.25} aria-hidden="true" />
+      <span className="scroll-cue__icon" aria-hidden="true">
+        &#8595;
+      </span>
     </div>
   );
 }
