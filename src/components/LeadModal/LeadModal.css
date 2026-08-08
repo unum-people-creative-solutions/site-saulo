@@ -46,7 +46,7 @@
   border: 0;
   background: transparent;
   color: var(--color-fg-on-dark, #fff);
-  cursor: pointer;
+  cursor: var(--cursor-plus);
 }
 
 .lead-modal__close svg {

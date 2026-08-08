@@ -1,7 +1,6 @@
 'use client';
 
 import { forwardRef, useImperativeHandle, useRef } from 'react';
-import { ArrowUp } from 'lucide-react';
 import { TextButton } from '@/components/TextButton/TextButton';
 import { Wordmark } from '@/components/Wordmark/Wordmark';
 import { useLead } from '@/context/LeadContext';
@@ -85,10 +84,26 @@ export const FooterSection = forwardRef<FooterSectionHandle>(function FooterSect
               <p className="footer-section__label">Contatos</p>
               <ul className="footer-section__list">
                 <li>
-                  <a href={toTelHref(siteContacts.phone)}>{siteContacts.phone}</a>
+                  <a
+                    className="footer-section__split-row"
+                    href={toTelHref(siteContacts.phone)}
+                  >
+                    <span className="footer-section__split-desc">Telefone</span>
+                    <span className="footer-section__split-value">
+                      {siteContacts.phone}
+                    </span>
+                  </a>
                 </li>
                 <li>
-                  <a href={`mailto:${siteContacts.email}`}>{siteContacts.email}</a>
+                  <a
+                    className="footer-section__split-row"
+                    href={`mailto:${siteContacts.email}`}
+                  >
+                    <span className="footer-section__split-desc">E-mail</span>
+                    <span className="footer-section__split-value">
+                      {siteContacts.email}
+                    </span>
+                  </a>
                 </li>
               </ul>
             </div>
@@ -96,10 +111,16 @@ export const FooterSection = forwardRef<FooterSectionHandle>(function FooterSect
             <div className="footer-section__column">
               <p className="footer-section__label">Social</p>
               <ul className="footer-section__list">
-                {siteSocials.map(({ name, url }) => (
+                {siteSocials.map(({ name, handle, url }) => (
                   <li key={name}>
-                    <a href={url} target="_blank" rel="noopener noreferrer">
-                      {name}
+                    <a
+                      className="footer-section__split-row"
+                      href={url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <span className="footer-section__split-desc">{name}</span>
+                      <span className="footer-section__split-value">{handle}</span>
                     </a>
                   </li>
                 ))}
@@ -114,7 +135,11 @@ export const FooterSection = forwardRef<FooterSectionHandle>(function FooterSect
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                {siteContacts.address}
+                {siteContacts.addressLines.map((line) => (
+                  <span key={line} className="footer-section__address-line">
+                    {line}
+                  </span>
+                ))}
               </a>
             </div>
           </div>
@@ -125,12 +150,10 @@ export const FooterSection = forwardRef<FooterSectionHandle>(function FooterSect
             <Wordmark variant="stacked" />
           </div>
           <a href="#hero" className="footer-section__back-to-top">
-            <ArrowUp
-              className="footer-section__back-to-top-icon"
-              strokeWidth={1.25}
-              aria-hidden="true"
-            />
-            <span>Voltar ao topo</span>
+            <span className="footer-section__back-to-top-icon" aria-hidden="true">
+              &#8593;
+            </span>
+            <span>Back to top</span>
           </a>
         </div>
       </div>

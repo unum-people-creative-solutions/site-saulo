@@ -31,83 +31,85 @@ describe('heroParallax', () => {
     vi.restoreAllMocks();
   });
 
+  function mountFixture() {
+    const heroEl = document.createElement('section');
+    const aboutEl = document.createElement('section');
+    const imageEl = document.createElement('img');
+    heroEl.appendChild(imageEl);
+    document.body.append(heroEl, aboutEl);
+    return { heroEl, aboutEl, imageEl };
+  }
+
   it('does not register mousemove when pointer: fine is false (T49)', () => {
     stubMatchMedia(false);
+    const { heroEl, aboutEl, imageEl } = mountFixture();
 
-    const sectionEl = document.createElement('section');
-    const imageEl = document.createElement('img');
-    sectionEl.appendChild(imageEl);
-    document.body.appendChild(sectionEl);
+    const heroAddSpy = vi.spyOn(heroEl, 'addEventListener');
+    const aboutAddSpy = vi.spyOn(aboutEl, 'addEventListener');
 
-    const addSpy = vi.spyOn(sectionEl, 'addEventListener');
+    heroParallax(imageEl, heroEl, aboutEl);
 
-    heroParallax(imageEl, sectionEl);
+    expect(
+      heroAddSpy.mock.calls.filter(([type]) => type === 'mousemove'),
+    ).toHaveLength(0);
+    expect(
+      aboutAddSpy.mock.calls.filter(([type]) => type === 'mousemove'),
+    ).toHaveLength(0);
 
-    const mousemoveCalls = addSpy.mock.calls.filter(
-      ([type]) => type === 'mousemove',
-    );
-    expect(mousemoveCalls).toHaveLength(0);
-
-    sectionEl.remove();
+    heroEl.remove();
+    aboutEl.remove();
   });
 
-  it('registers mousemove when pointer: fine is true', () => {
+  it('registers mousemove on both Hero and Sobre when pointer: fine is true', () => {
     stubMatchMedia(true);
+    const { heroEl, aboutEl, imageEl } = mountFixture();
 
-    const sectionEl = document.createElement('section');
-    const imageEl = document.createElement('img');
-    sectionEl.appendChild(imageEl);
-    document.body.appendChild(sectionEl);
+    const heroAddSpy = vi.spyOn(heroEl, 'addEventListener');
+    const aboutAddSpy = vi.spyOn(aboutEl, 'addEventListener');
 
-    const addSpy = vi.spyOn(sectionEl, 'addEventListener');
+    heroParallax(imageEl, heroEl, aboutEl);
 
-    heroParallax(imageEl, sectionEl);
+    expect(
+      heroAddSpy.mock.calls.filter(([type]) => type === 'mousemove'),
+    ).toHaveLength(1);
+    expect(
+      aboutAddSpy.mock.calls.filter(([type]) => type === 'mousemove'),
+    ).toHaveLength(1);
 
-    const mousemoveCalls = addSpy.mock.calls.filter(
-      ([type]) => type === 'mousemove',
-    );
-    expect(mousemoveCalls.length).toBeGreaterThanOrEqual(1);
-
-    sectionEl.remove();
+    heroEl.remove();
+    aboutEl.remove();
   });
 
   it('does not register a scroll-scrubbed yPercent tween on the image', () => {
     stubMatchMedia(false);
+    const { heroEl, aboutEl, imageEl } = mountFixture();
 
-    const sectionEl = document.createElement('section');
-    const imageEl = document.createElement('img');
-    sectionEl.appendChild(imageEl);
-    document.body.appendChild(sectionEl);
+    heroParallax(imageEl, heroEl, aboutEl);
 
-    heroParallax(imageEl, sectionEl);
-
-    const scrubbed = ScrollTrigger.getAll().filter(
-      (st) => st.vars.scrub && st.vars.trigger === sectionEl,
-    );
+    const scrubbed = ScrollTrigger.getAll().filter((st) => st.vars.scrub);
     expect(scrubbed).toHaveLength(0);
     expect(Number(gsap.getProperty(imageEl, 'yPercent'))).toBeCloseTo(0, 0);
 
-    sectionEl.remove();
+    heroEl.remove();
+    aboutEl.remove();
   });
 
-  it('locks the image centered shortly after scroll starts', () => {
+  it('locks the image centered once Sobre has fully scrolled past', () => {
     stubMatchMedia(false);
+    const { heroEl, aboutEl, imageEl } = mountFixture();
 
-    const sectionEl = document.createElement('section');
-    const imageEl = document.createElement('img');
-    sectionEl.appendChild(imageEl);
-    document.body.appendChild(sectionEl);
-
-    heroParallax(imageEl, sectionEl);
+    heroParallax(imageEl, heroEl, aboutEl);
     gsap.set(imageEl, { x: 40, y: 20 });
 
     const trigger = ScrollTrigger.getAll().at(-1)!;
-    expect(trigger.vars.end).toBe('top+=80 top');
+    expect(trigger.vars.trigger).toBe(aboutEl);
+    expect(trigger.vars.end).toBe('bottom top');
     trigger.vars.onLeave?.(trigger);
 
     expect(Number(gsap.getProperty(imageEl, 'x'))).toBeCloseTo(0, 0);
     expect(Number(gsap.getProperty(imageEl, 'y'))).toBeCloseTo(0, 0);
 
-    sectionEl.remove();
+    heroEl.remove();
+    aboutEl.remove();
   });
 });

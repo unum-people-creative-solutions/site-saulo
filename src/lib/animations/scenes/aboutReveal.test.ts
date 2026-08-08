@@ -49,6 +49,6 @@ describe('aboutReveal', () => {
     expect(triggers.length).toBeGreaterThan(0);
     expect(triggers[0]?.vars.pin).toBe(true);
     expect(triggers[0]?.vars.scrub).toBe(true);
-    expect(triggers[0]?.vars.end).toBe('+=300%');
+    expect(triggers[0]?.vars.end).toBe('+=180%');
   });
 });

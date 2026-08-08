@@ -38,7 +38,7 @@
   border: none;
   background: transparent;
   padding: 0;
-  cursor: pointer;
+  cursor: var(--cursor-plus);
   color: var(--color-oak, #b89067);
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
   font-weight: var(--type-label-weight);

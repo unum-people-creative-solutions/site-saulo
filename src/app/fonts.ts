@@ -32,15 +32,15 @@ export const uncutSans = localFont({
   display: "swap",
 });
 
-export const tinos = localFont({
+export const cormorantGaramond = localFont({
   src: [
     {
-      path: "../../public/fonts/tinos/Tinos-Regular.ttf",
+      path: "../../public/fonts/cormorant-garamond/CormorantGaramond-Variable.ttf",
       weight: "400",
       style: "normal",
     },
     {
-      path: "../../public/fonts/tinos/Tinos-Italic.ttf",
+      path: "../../public/fonts/cormorant-garamond/CormorantGaramond-Italic-Variable.ttf",
       weight: "400",
       style: "italic",
     },

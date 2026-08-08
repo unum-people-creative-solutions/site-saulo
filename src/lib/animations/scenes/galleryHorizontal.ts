@@ -7,7 +7,7 @@ import { gsap, ScrollTrigger } from '../gsap-context';
  * (motion-driven mode), some engines report scrollWidth === clientWidth
  * even though flex children overflow — fall back to summing card widths.
  */
-function horizontalDistance(trackEl: HTMLElement): number {
+export function horizontalDistance(trackEl: HTMLElement): number {
   const fromScroll = trackEl.scrollWidth - trackEl.clientWidth;
   if (fromScroll > 1) return fromScroll;
 

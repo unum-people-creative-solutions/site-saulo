@@ -1,16 +1,32 @@
+export const siteAddressLines = [
+  'Rua Fernando Falcão, 1111 — Mooca',
+  'Sala 407 — Ed. Bernini',
+  'São Paulo-SP',
+  '03180-003',
+] as const;
+
 export const siteContacts = {
   phone: '+55 11 98286 4003',
   email: 'arquitetura@sauloarq.com',
-  address:
-    'Rua Fernando Falcão, 1111 — Mooca, Sala 407 — Ed. Bernini, São Paulo-SP, 03180-003',
+  addressLines: siteAddressLines,
+  /** Single-line form for maps query / JSON-LD parsing. */
+  address: siteAddressLines.join(', '),
 };
 
 /** Digits-only office number for `wa.me` (public contact). */
 export const siteWhatsAppNumber = siteContacts.phone.replace(/\D/g, '');
 
 export const siteSocials = [
-  { name: 'Instagram', url: 'https://www.instagram.com/saulomagno.arquitetos' },
-  { name: 'Pinterest', url: 'https://br.pinterest.com/saulomagno_' },
+  {
+    name: 'Instagram',
+    handle: '@saulomagno.arquitetos',
+    url: 'https://www.instagram.com/saulomagno.arquitetos',
+  },
+  {
+    name: 'Pinterest',
+    handle: '@saulomagno_',
+    url: 'https://br.pinterest.com/saulomagno_',
+  },
 ];
 
 /** Domínio de produção ainda pendente do cliente — override via NEXT_PUBLIC_SITE_URL */

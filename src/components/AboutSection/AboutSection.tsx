@@ -50,7 +50,6 @@ export const AboutSection = forwardRef<AboutSectionHandle>(function AboutSection
       className="about-section"
       aria-labelledby="sobre-title"
     >
-      <div className="about-section__scrim" aria-hidden="true" />
       <div className="about-section__inner">
         <h2 id="sobre-title" className="about-section__title about-section__title--sr-only">
           Sobre

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+  <!-- Paper halo so the mark stays readable on ink surfaces -->
+  <path d="M16 6v20M6 16h20" stroke="#EEECE9" stroke-width="2.75" stroke-linecap="square"/>
+  <!-- Ink cross — thin + in the spirit of VscAdd / architecture-site cursors -->
+  <path d="M16 6v20M6 16h20" stroke="#130F0B" stroke-width="1.25" stroke-linecap="square"/>
+</svg>

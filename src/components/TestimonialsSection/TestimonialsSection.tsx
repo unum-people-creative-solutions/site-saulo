@@ -1,7 +1,13 @@
 'use client';
 
 import Image from 'next/image';
-import { useEffect, useRef, useState } from 'react';
+import {
+  useEffect,
+  useRef,
+  useState,
+  type KeyboardEvent,
+  type MouseEvent,
+} from 'react';
 import type { Testimonial } from '@/content/types';
 import { testimonials as defaultItems } from '@/content/testimonials';
 import './TestimonialsSection.css';
@@ -23,6 +29,7 @@ export function TestimonialsSection({
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const pausedRef = useRef(false);
+  const cardRef = useRef<HTMLDivElement>(null);
   const total = items.length;
   const current = items[index];
 
@@ -37,16 +44,33 @@ export function TestimonialsSection({
     return () => window.clearInterval(id);
   }, [total]);
 
+  useEffect(() => {
+    if (!paused) return;
+
+    function resumeFromOutside(event: globalThis.MouseEvent) {
+      const card = cardRef.current;
+      if (card?.contains(event.target as Node)) return;
+      pausedRef.current = false;
+      setPaused(false);
+    }
+
+    document.addEventListener('click', resumeFromOutside);
+    return () => document.removeEventListener('click', resumeFromOutside);
+  }, [paused]);
+
   if (!current) return null;
 
-  function pause() {
-    pausedRef.current = true;
-    setPaused(true);
-  }
+  function togglePause(event: MouseEvent | KeyboardEvent) {
+    if ('key' in event) {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      event.preventDefault();
+    } else {
+      event.stopPropagation();
+    }
 
-  function resume() {
-    pausedRef.current = false;
-    setPaused(false);
+    const next = !pausedRef.current;
+    pausedRef.current = next;
+    setPaused(next);
   }
 
   return (
@@ -54,13 +78,17 @@ export function TestimonialsSection({
       id="depoimentos"
       className="testimonials-section on-light"
       aria-label="Depoimentos"
-      tabIndex={-1}
-      onMouseEnter={pause}
-      onMouseLeave={resume}
-      onFocus={pause}
-      onBlur={resume}
     >
-      <div className="testimonials-section__inner">
+      <div
+        ref={cardRef}
+        className="testimonials-section__inner"
+        role="button"
+        tabIndex={0}
+        aria-pressed={paused}
+        aria-label={paused ? 'Retomar slideshow' : 'Pausar slideshow'}
+        onClick={togglePause}
+        onKeyDown={togglePause}
+      >
         <div className="testimonials-section__meta">
           <p className="testimonials-section__counter" aria-hidden="true">
             {formatCounter(index, total)}

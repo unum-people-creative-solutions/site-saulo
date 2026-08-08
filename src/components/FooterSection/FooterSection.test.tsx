@@ -22,21 +22,39 @@ describe('FooterSection', () => {
   it('T16: Instagram and Pinterest links use confirmed URLs with safe rel; no LinkedIn', () => {
     render(<FooterSection />);
 
-    const instagram = screen.getByRole('link', { name: /instagram/i });
+    const instagram = screen.getByRole('link', {
+      name: /instagram.*@saulomagno\.arquitetos/i,
+    });
+    expect(instagram).toHaveClass('footer-section__split-row');
     expect(instagram).toHaveAttribute(
       'href',
       'https://www.instagram.com/saulomagno.arquitetos',
     );
     expect(instagram.getAttribute('rel')).toMatch(/noopener/);
     expect(instagram.getAttribute('rel')).toMatch(/noreferrer/);
+    expect(
+      instagram.querySelector('.footer-section__split-desc'),
+    ).toHaveTextContent('Instagram');
+    expect(
+      instagram.querySelector('.footer-section__split-value'),
+    ).toHaveTextContent('@saulomagno.arquitetos');
 
-    const pinterest = screen.getByRole('link', { name: /pinterest/i });
+    const pinterest = screen.getByRole('link', {
+      name: /pinterest.*@saulomagno_/i,
+    });
+    expect(pinterest).toHaveClass('footer-section__split-row');
     expect(pinterest).toHaveAttribute(
       'href',
       'https://br.pinterest.com/saulomagno_',
     );
     expect(pinterest.getAttribute('rel')).toMatch(/noopener/);
     expect(pinterest.getAttribute('rel')).toMatch(/noreferrer/);
+    expect(
+      pinterest.querySelector('.footer-section__split-desc'),
+    ).toHaveTextContent('Pinterest');
+    expect(
+      pinterest.querySelector('.footer-section__split-value'),
+    ).toHaveTextContent('@saulomagno_');
 
     expect(screen.queryByText(/linkedin/i)).toBeNull();
   });
@@ -66,13 +84,27 @@ describe('FooterSection', () => {
   it('T18: phone uses tel: and email uses mailto:arquitetura@sauloarq.com', () => {
     render(<FooterSection />);
 
-    const phone = screen.getByRole('link', { name: /\+55/ });
+    const phone = screen.getByRole('link', { name: /telefone.*\+55/i });
+    expect(phone).toHaveClass('footer-section__split-row');
     expect(phone.getAttribute('href')).toMatch(/^tel:/);
+    expect(phone.querySelector('.footer-section__split-desc')).toHaveTextContent(
+      'Telefone',
+    );
+    expect(phone.querySelector('.footer-section__split-value')).toHaveTextContent(
+      '+55 11 98286 4003',
+    );
 
     const email = screen.getByRole('link', {
-      name: 'arquitetura@sauloarq.com',
+      name: /e-mail.*arquitetura@sauloarq\.com/i,
     });
+    expect(email).toHaveClass('footer-section__split-row');
     expect(email).toHaveAttribute('href', 'mailto:arquitetura@sauloarq.com');
+    expect(email.querySelector('.footer-section__split-desc')).toHaveTextContent(
+      'E-mail',
+    );
+    expect(email.querySelector('.footer-section__split-value')).toHaveTextContent(
+      'arquitetura@sauloarq.com',
+    );
   });
 
   it('address opens Google Maps in a new tab with the full query', () => {
@@ -93,6 +125,14 @@ describe('FooterSection', () => {
     expect(address).toHaveAttribute('target', '_blank');
     expect(address.getAttribute('rel')).toMatch(/noopener/);
     expect(address.getAttribute('rel')).toMatch(/noreferrer/);
+
+    const lines = address.querySelectorAll('.footer-section__address-line');
+    expect([...lines].map((el) => el.textContent)).toEqual([
+      'Rua Fernando Falcão, 1111 — Mooca',
+      'Sala 407 — Ed. Bernini',
+      'São Paulo-SP',
+      '03180-003',
+    ]);
   });
 
   it('T29: CTA calls openModal and does not render wa.me href', async () => {

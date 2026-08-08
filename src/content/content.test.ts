@@ -50,6 +50,10 @@ describe('content modules', () => {
     expect(siteHeroText.length).toBeGreaterThan(0);
     expect(siteAboutBlocks).toHaveLength(4);
     expect(siteSocials.map((s) => s.name)).toEqual(['Instagram', 'Pinterest']);
+    expect(siteSocials.map((s) => s.handle)).toEqual([
+      '@saulomagno.arquitetos',
+      '@saulomagno_',
+    ]);
   });
 
   it('derives digits-only WhatsApp number from the public office phone', () => {

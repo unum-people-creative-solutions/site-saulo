@@ -13,7 +13,7 @@
   border-radius: 50%;
   background: rgba(19, 15, 11, 0.72);
   color: var(--color-fg-on-dark, #fff);
-  cursor: pointer;
+  cursor: var(--cursor-plus);
 }
 
 .whatsapp-fab__icon {
