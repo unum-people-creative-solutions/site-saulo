@@ -168,6 +168,11 @@ export function MotionOrchestrator() {
               footer.sectionEl,
             ),
           ),
+          // Same CTA handoff as desktop: "Iniciar um contato." rises from the
+          // testimonials paper bridge into the footer (scrub + ink→white).
+          runScene(footer.sectionEl, () =>
+            footerRise(footer.sectionEl, footer.titleEl),
+          ),
         ];
 
         return () => {
