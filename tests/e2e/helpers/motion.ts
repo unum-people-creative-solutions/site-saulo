@@ -2,6 +2,7 @@ import { expect, type Page } from '@playwright/test';
 
 export type ScrollTriggerLike = {
   pin?: unknown;
+  trigger?: Element | string | null;
   vars?: { scrub?: unknown; pin?: unknown };
 };
 
@@ -42,6 +43,22 @@ export async function countPinTriggers(page: Page): Promise<number> {
   return page.evaluate(() => {
     const all = window.__scrollTrigger?.getAll() ?? [];
     return all.filter((t) => Boolean(t.pin)).length;
+  });
+}
+
+/** Ids of elements currently pinned by ScrollTrigger (empty string if none). */
+export async function pinnedTriggerIds(page: Page): Promise<string[]> {
+  return page.evaluate(() => {
+    const all = window.__scrollTrigger?.getAll() ?? [];
+    return all
+      .filter((t) => Boolean(t.pin))
+      .map((t) => {
+        const trigger = t.trigger;
+        if (trigger instanceof Element) {
+          return trigger.id || trigger.tagName.toLowerCase();
+        }
+        return String(trigger ?? '');
+      });
   });
 }
 

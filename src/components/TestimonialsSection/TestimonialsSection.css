@@ -22,7 +22,7 @@
 }
 
 .testimonials-section__inner:focus-visible {
-  outline: 2px solid var(--color-oak, #b89067);
+  outline: 2px solid var(--color-stone);
   outline-offset: 8px;
 }
 

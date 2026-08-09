@@ -13,14 +13,18 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  /* `safe` keeps top padding visible when the form is taller than the viewport. */
+  justify-content: safe center;
   width: 100%;
   max-height: none;
   height: 100%;
   overflow-y: auto;
+  /* Extra top inset clears the close control and keeps the form from
+     kissing the viewport edge when content is tall / scrollable. */
   padding:
-    clamp(2rem, 8vh, 4rem)
-    clamp(1.5rem, 6vw, 4rem);
+    clamp(4.5rem, 14vh, 7rem)
+    clamp(1.5rem, 6vw, 4rem)
+    clamp(2rem, 8vh, 4rem);
   background: transparent;
   color: var(--color-fg-on-dark, #fff);
   outline: none;
@@ -59,7 +63,7 @@
 }
 
 .lead-modal__close:focus-visible {
-  outline: 2px solid var(--color-oak, #b89067);
+  outline: 2px solid var(--color-stone);
   outline-offset: 3px;
 }
 
@@ -79,7 +83,7 @@
   font-size: var(--type-meta-size, 12px);
   font-weight: var(--type-meta-weight, 400);
   letter-spacing: var(--type-meta-tracking, 0.08em);
-  color: var(--color-oak, #b89067);
+  color: var(--color-stone);
 }
 
 /* Form fields inherit white; muted labels on dark */
@@ -90,21 +94,21 @@
 
 .lead-modal__content .lead-field__error,
 .lead-modal__content .lead-form__live {
-  color: var(--color-oak, #b89067);
+  color: var(--color-stone);
 }
 
 .lead-modal__content .lead-field__control:focus,
 .lead-modal__content .lead-form__textarea:focus {
-  border-bottom-color: var(--color-oak, #b89067);
+  border-bottom-color: var(--color-stone);
 }
 
 .lead-modal__content .lead-field__control:focus-visible,
 .lead-modal__content .lead-form__textarea:focus-visible {
-  outline-color: var(--color-oak, #b89067);
+  outline-color: var(--color-stone);
 }
 
 .lead-modal__content .lead-field--error .lead-field__control {
-  border-bottom-color: var(--color-oak, #b89067);
+  border-bottom-color: var(--color-stone);
 }
 
 /* Native select (“tipo de projeto”) — dark menu + white type */

@@ -57,6 +57,31 @@ describe('processCascade', () => {
     }
   });
 
+  it('per-card mode triggers on each card against the viewport, never pins', () => {
+    const { section, title, subtitle, cards, closing, cta } =
+      mountProcessFixture();
+    processCascade(section, title, subtitle, cards, closing, cta, {
+      mode: 'per-card',
+    });
+
+    const triggers = ScrollTrigger.getAll();
+    // header pair + 4 cards + closing + cta
+    expect(triggers).toHaveLength(7);
+
+    for (const st of triggers) {
+      expect(st.vars.pin).toBeFalsy();
+      expect(st.vars.start).toBe('top 80%');
+      expect(st.trigger).not.toBe(section);
+    }
+
+    expect(triggers.map((st) => st.trigger)).toEqual([
+      title,
+      ...cards,
+      closing,
+      cta,
+    ]);
+  });
+
   it('hides all stages initially via opacity (never display/visibility)', () => {
     const { section, title, subtitle, cards, closing, cta } =
       mountProcessFixture();

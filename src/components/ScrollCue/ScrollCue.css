@@ -39,10 +39,9 @@
   }
 }
 
-/* Full motion mode hands the arrow off to the persistent ScrollArrow
-   (fixed to the viewport, tracks gallery/footer) — keep only the label
-   here so there's no second arrow on screen. */
-@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+/* Persistent ScrollArrow owns the glyph (desktop + mobile) — keep only
+   the label here so there's no second arrow on screen. */
+@media (prefers-reduced-motion: no-preference) {
   .scroll-cue__icon {
     display: none;
   }

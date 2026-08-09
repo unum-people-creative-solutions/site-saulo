@@ -26,6 +26,13 @@
   background-repeat: no-repeat;
 }
 
+@media (max-width: 1023px) {
+  .process-section__background {
+    /* Match hero mobile crop language — open on the left third of the frame. */
+    background-position: 30% center;
+  }
+}
+
 .process-section__scrim {
   position: absolute;
   inset: 0;

@@ -13,7 +13,7 @@
   font-size: var(--type-meta-size);
   font-weight: var(--type-meta-weight);
   letter-spacing: var(--type-meta-tracking);
-  color: var(--color-oak-deep);
+  color: var(--color-ink);
 }
 
 .lead-form__live:empty {
@@ -46,11 +46,11 @@
 
 .lead-form__textarea:focus {
   outline: none;
-  border-bottom-color: var(--color-oak);
+  border-bottom-color: var(--color-stone);
 }
 
 .lead-form__textarea:focus-visible {
-  outline: 2px solid var(--color-oak);
+  outline: 2px solid var(--color-stone);
   outline-offset: 3px;
 }
 
@@ -116,6 +116,6 @@
 }
 
 .lead-form__submit:focus-visible {
-  outline: 2px solid var(--color-oak, #b89067);
+  outline: 2px solid var(--color-stone);
   outline-offset: 3px;
 }

@@ -17,12 +17,6 @@
   }
 }
 
-@media (max-width: 1023px) {
-  .about-section {
-    background: var(--color-ink);
-  }
-}
-
 .about-section__inner {
   position: relative;
   z-index: 2;

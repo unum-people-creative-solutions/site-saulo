@@ -30,8 +30,8 @@ describe('CookieBanner', () => {
     const accept = screen.getByRole('button', { name: 'Aceitar' });
     expect(accept).toBeInTheDocument();
     expect(
-      screen.getByRole('button', { name: 'Configurar' }),
-    ).toBeInTheDocument();
+      screen.queryByRole('button', { name: 'Configurar' }),
+    ).not.toBeInTheDocument();
 
     await user.click(accept);
 

@@ -2,8 +2,8 @@ import { expect, test } from '@playwright/test';
 
 import {
   countPinOrScrubTriggers,
-  countPinTriggers,
   expectCoreNarrativeVisible,
+  pinnedTriggerIds,
   waitForScrollTriggerSeam,
 } from './helpers/motion';
 
@@ -34,12 +34,14 @@ test.describe('T41: reduced motion', () => {
 test.describe('T42: below 1024px', () => {
   test.use({ viewport: { width: 768, height: 1024 } });
 
-  test('T42: below 1024px registers zero pin', async ({ page }) => {
+  test('T42: below 1024px only Sobre may pin; gallery stays free to scroll', async ({
+    page,
+  }) => {
     await page.goto('/');
     await waitForScrollTriggerSeam(page);
 
-    const pinCount = await countPinTriggers(page);
-    expect(pinCount).toBe(0);
+    // About text reveal matches desktop (pinned scrub). No other pins.
+    expect(await pinnedTriggerIds(page)).toEqual(['sobre']);
 
     const track = page.locator('#galeria .gallery-section__track');
     await expect(track).toBeAttached();

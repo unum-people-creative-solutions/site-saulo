@@ -1,19 +1,23 @@
 /*
- * Persistent scroll-direction arrow — full motion mode only (below
- * 1024px / reduced-motion, the hero's own ScrollCue arrow is used
- * instead; see ScrollCue.css). Fixed to the viewport so it survives
- * every section's `overflow: hidden` (same reasoning as the header —
- * see HeroSection.tsx).
+ * Persistent scroll-direction arrow (desktop + mobile; reduced-motion
+ * keeps the hero ScrollCue arrow instead — see ScrollCue.css). Fixed to
+ * the viewport so it survives every section's `overflow: hidden` (same
+ * reasoning as the header — see HeroSection.tsx).
  *
- * scrollArrow.ts toggles `data-state` (down / right / hidden) and the
- * `--on-light` class as the page scrolls through the gallery (light
- * background) and testimonials (also light) sections.
+ * scrollArrow.ts toggles `data-state` (down / right / hidden) as the
+ * page scrolls through the gallery and footer. Contrast against whatever
+ * sits behind the glyph comes from `mix-blend-mode: difference` — no
+ * fixed white halo, tipografia Uncut Sans intacta.
  */
 .scroll-arrow {
   display: none;
   position: fixed;
   z-index: 30;
   pointer-events: none;
+  /* Inverts against the pixels under the arrow (gallery photos, paper,
+     ink scrims) so the ↓ always reads without a painted border. */
+  mix-blend-mode: difference;
+  color: #fff;
   /* left/top/right/bottom flip between a set value and `auto` across
      states, which browsers can't interpolate — only opacity and the
      icon's own rotation transition smoothly; the position swap itself
@@ -27,10 +31,7 @@
   font-weight: 400; /* Uncut Sans Regular / Book — same glyph as ScrollCue */
   font-size: 26px;
   line-height: 1;
-  color: var(--color-ink, #130f0b);
-  /* Paper halo under ink fill — same dual-tone trick as the + cursor. */
-  -webkit-text-stroke: 2.75px var(--color-paper, #eeece9);
-  paint-order: stroke fill;
+  color: inherit;
   transition: transform 0.4s ease;
 }
 
@@ -96,7 +97,7 @@
   }
 }
 
-@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+@media (prefers-reduced-motion: no-preference) {
   .scroll-arrow {
     display: block;
   }

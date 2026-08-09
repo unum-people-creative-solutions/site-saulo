@@ -1,5 +1,19 @@
 import { gsap } from '../gsap-context';
 
+export type AboutRevealOptions = {
+  /**
+   * Desktop default: pin the section while blocks scrub in.
+   * Pass `false` only if a caller must avoid pins (legacy); mobile now
+   * uses the same pinned choreography as desktop.
+   */
+  pin?: boolean;
+};
+
+/** Scroll length of the about pin scrub — `(N-1)*60%` of the viewport. */
+export function aboutRevealScrubEnd(blockCount: number): string {
+  return `+=${Math.max(blockCount - 1, 1) * 60}%`;
+}
+
 /**
  * Pinned about section: text blocks reveal in sequence via opacity/y scrub.
  * Initial state uses opacity only — never display/visibility — so content
@@ -11,18 +25,19 @@ import { gsap } from '../gsap-context';
 export function aboutReveal(
   sectionEl: HTMLElement,
   blockEls: HTMLElement[],
+  options: AboutRevealOptions = {},
 ): void {
-  gsap.set(blockEls, { opacity: 0, y: 24 });
+  const pin = options.pin ?? true;
 
-  const scrubDistance = `${Math.max(blockEls.length - 1, 1) * 60}%`;
+  gsap.set(blockEls, { opacity: 0, y: 24 });
 
   const tl = gsap.timeline({
     scrollTrigger: {
       trigger: sectionEl,
-      pin: true,
+      pin,
       scrub: true,
       start: 'top top',
-      end: `+=${scrubDistance}`,
+      end: aboutRevealScrubEnd(blockEls.length),
     },
   });
 

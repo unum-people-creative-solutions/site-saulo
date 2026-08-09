@@ -1,6 +1,28 @@
 .wordmark {
   display: inline-flex;
   line-height: 0;
+  --tracking-wordmark: 0.62em;
+}
+
+/*
+ * The 0.62em desktop tracking is wider than the mobile header can fit on
+ * one line. `line-height: 0` (needed to kill the half-leading gap around
+ * a single line of text) turns a wrapped second line into a catastrophe —
+ * without a real line-height, the wrapped line has zero height and stacks
+ * directly on top of the first, reading as garbled overlapping letters.
+ * Tightening the tracking keeps it on one line instead of trying to fix
+ * the wrap itself. `white-space: nowrap` (below) is the backstop in case
+ * an even narrower device still doesn't fit — it overflows instead of
+ * wrapping into that same overlap.
+ */
+@media (max-width: 900px) {
+  .wordmark {
+    --tracking-wordmark: 0.2em;
+  }
+}
+
+.wordmark__lockup {
+  white-space: nowrap;
 }
 
 .wordmark--stacked {

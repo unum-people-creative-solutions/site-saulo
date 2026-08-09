@@ -56,11 +56,6 @@
   --color-ink-soft: #1C1713;
   --color-paper: #EEECE9;
   --color-paper-warm: #DAD9D2;
-  --color-oak: #B89067;
-  --color-oak-deep: #9D724D;
-  --color-earth: #5C5036;
-  --color-bark: #4B3F34;
-  --color-sage: #7E9070;
   /* Sampled from the client's logo moodboard (resources-for-planing/logos_saulo.jpeg). */
   --color-stone: #7C7E73;
   --color-fg-on-dark: #FFFFFF;
@@ -126,11 +121,11 @@ textarea,
 
 /* Focus ring — base (dark surfaces) */
 :focus-visible {
-  outline: 2px solid var(--color-oak);
+  outline: 2px solid var(--color-stone);
   outline-offset: 3px;
 }
 
 /* Focus ring — light surfaces */
 .on-light :focus-visible {
-  outline-color: var(--color-oak-deep);
+  outline-color: var(--color-ink);
 }
