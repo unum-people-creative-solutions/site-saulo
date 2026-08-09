@@ -54,17 +54,10 @@ export function CookieBanner() {
       <div className="cookie-banner__actions">
         <button
           type="button"
-          className="cookie-banner__button cookie-banner__button--primary"
+          className="cookie-banner__button"
           onClick={accept}
         >
           Aceitar
-        </button>
-        <button
-          type="button"
-          className="cookie-banner__button"
-          onClick={dismiss}
-        >
-          Configurar
         </button>
       </div>
     </div>

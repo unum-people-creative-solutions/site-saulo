@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it } from 'vitest';
 
 import { gsap, ScrollTrigger } from '../gsap-context';
-import { aboutReveal } from './aboutReveal';
+import { aboutReveal, aboutRevealScrubEnd } from './aboutReveal';
 
 function mountAboutFixture(count = 3) {
   const section = document.createElement('section');
@@ -50,5 +50,20 @@ describe('aboutReveal', () => {
     expect(triggers[0]?.vars.pin).toBe(true);
     expect(triggers[0]?.vars.scrub).toBe(true);
     expect(triggers[0]?.vars.end).toBe('+=180%');
+  });
+
+  it('can disable pin when requested', () => {
+    const { section, blocks } = mountAboutFixture(3);
+    aboutReveal(section, blocks, { pin: false });
+
+    const triggers = ScrollTrigger.getAll().filter(
+      (st) => st.trigger === section,
+    );
+    expect(triggers[0]?.vars.pin).toBe(false);
+  });
+
+  it('aboutRevealScrubEnd scales with block count', () => {
+    expect(aboutRevealScrubEnd(4)).toBe('+=180%');
+    expect(aboutRevealScrubEnd(1)).toBe('+=60%');
   });
 });

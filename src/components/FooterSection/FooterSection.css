@@ -46,17 +46,8 @@
      padding-bottom (~10% of the viewport) keeps air between the wordmark
      and the end of the page. */
   padding: clamp(130px, 16vh, 170px) var(--spacing-32) 10svh;
-  /* Uniformly ≥0.85 ink — text isn't confined to one predictable spot on
-     the image (title near the top, nav/contact text in the middle, wordmark
-     at the bottom), so this can't fade out toward one edge the way a
-     single-purpose hero overlay could; it has to hold AA contrast for light
-     text everywhere in the footer. */
-  background: linear-gradient(
-    to top,
-    rgba(19, 15, 11, 0.88) 0%,
-    rgba(19, 15, 11, 0.86) 50%,
-    rgba(19, 15, 11, 0.85) 100%
-  );
+  /* 40% opaque ink film over the footer photo. */
+  background: rgba(19, 15, 11, 0.4);
 }
 
 .footer-section__title {
@@ -102,6 +93,7 @@
 }
 
 .footer-section__nav-list a {
+  position: relative;
   color: inherit;
   text-decoration: none;
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
@@ -111,8 +103,25 @@
   text-transform: uppercase;
 }
 
-.footer-section__nav-list a:hover {
-  color: var(--color-stone);
+/* Same drawn-line technique as .text-button (TextButton.css): a transform,
+   not a color swap, so it reads as the same "redraw" gesture as the
+   "Iniciar um contato" CTA — just starting hidden and drawing in on hover
+   instead of staying permanently on. */
+.footer-section__nav-list a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--motion-underline, 260ms cubic-bezier(0.16, 1, 0.3, 1));
+}
+
+.footer-section__nav-list a:hover::after {
+  transform: scaleX(1);
 }
 
 .footer-section__columns {
@@ -162,10 +171,6 @@
   letter-spacing: var(--type-body-tracking);
 }
 
-.footer-section__list a:hover {
-  color: var(--color-stone);
-}
-
 /* Split rows (Contatos + Social): one link per row — label left, value
    right. The column list is `align-items: flex-end`, so the <li> must
    stretch or the row never gets full width and space-between collapses. */
@@ -181,6 +186,34 @@
   justify-content: space-between;
   gap: var(--spacing-16, 16px);
   text-align: left;
+}
+
+.footer-section__split-desc,
+.footer-section__split-value {
+  position: relative;
+}
+
+/* Underline each piece of text on its own (not the row as a box): the
+   label and value sit at opposite ends of the row with a wide gap between
+   them, and a single underline spanning that gap read as one continuous
+   line under empty space. */
+.footer-section__split-desc::after,
+.footer-section__split-value::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--motion-underline, 260ms cubic-bezier(0.16, 1, 0.3, 1));
+}
+
+.footer-section__split-row:hover .footer-section__split-desc::after,
+.footer-section__split-row:hover .footer-section__split-value::after {
+  transform: scaleX(1);
 }
 
 .footer-section__split-desc {
@@ -210,11 +243,30 @@
 }
 
 .footer-section__address-line {
+  position: relative;
   display: block;
+  /* Shrink to its own text width (not the full right-aligned column) so
+     the underline below hugs just the line, not the empty space next to
+     shorter lines. */
+  width: fit-content;
+  margin-left: auto;
 }
 
-.footer-section__address:hover {
-  color: var(--color-stone);
+.footer-section__address-line::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--motion-underline, 260ms cubic-bezier(0.16, 1, 0.3, 1));
+}
+
+.footer-section__address:hover .footer-section__address-line::after {
+  transform: scaleX(1);
 }
 
 .footer-section__bottom {
@@ -238,14 +290,81 @@
   max-width: min(22.4rem, 36.8vmin, 100%);
 }
 
-@media (max-width: 639px) {
-  .footer-section__brand {
-    flex-basis: 100%;
-    max-width: min(16rem, 56vw, 100%);
+/* Mobile: pack the whole footer into one viewport — desktop air (10svh
+   bottom, 128px column gaps, large top clear) overflows small screens. */
+@media (max-width: 1023px) {
+  .footer-section__scrim {
+    gap: var(--spacing-16);
+    /* Header is shorter on mobile; keep min-height but tighten the frame. */
+    padding:
+      clamp(72px, 10vh, 96px)
+      var(--spacing-24)
+      clamp(16px, 3vh, 32px);
+  }
+
+  .footer-section__title {
+    font-size: clamp(22px, 5.5vw, 30px);
+  }
+
+  .footer-section__middle {
+    gap: var(--spacing-24);
+  }
+
+  .footer-section__nav-list {
+    gap: var(--spacing-16) var(--spacing-24);
+  }
+
+  .footer-section__columns {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-16);
+    padding-inline: 0;
+    text-align: right;
+  }
+
+  .footer-section__columns .footer-section__list {
+    align-items: flex-end;
+  }
+
+  .footer-section__columns .footer-section__address {
+    margin-inline-start: auto;
+  }
+
+  .footer-section__address-line {
+    margin-left: auto;
+  }
+
+  .footer-section__label {
+    margin-bottom: var(--spacing-8);
   }
 
   .footer-section__bottom {
-    padding-bottom: 5.5rem;
+    min-height: 0;
+    gap: var(--spacing-16);
+    /* Back-to-top sits beside/under brand without a tall reserved slab. */
+    padding-bottom: 3.25rem;
+  }
+
+  .footer-section__brand {
+    max-width: min(12rem, 42vw, 100%);
+  }
+}
+
+@media (max-width: 639px) {
+  .footer-section__brand {
+    flex-basis: 100%;
+    max-width: min(11rem, 48vw, 100%);
+  }
+
+  .footer-section__bottom {
+    padding-bottom: 3.5rem;
+  }
+
+  .footer-section__back-to-top {
+    gap: var(--spacing-4, 4px);
+  }
+
+  .footer-section__back-to-top-icon {
+    font-size: 22px;
   }
 }
 
@@ -266,6 +385,27 @@
   letter-spacing: var(--type-meta-tracking, 0.08em);
   text-transform: lowercase;
   animation: footer-back-to-top-pulse 2.4s ease-in-out infinite;
+}
+
+.footer-section__back-to-top > span:last-child {
+  position: relative;
+}
+
+.footer-section__back-to-top > span:last-child::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--motion-underline, 260ms cubic-bezier(0.16, 1, 0.3, 1));
+}
+
+.footer-section__back-to-top:hover > span:last-child::after {
+  transform: scaleX(1);
 }
 
 /* Same pulse as .scroll-cue (ScrollCue.css) — the two are the page's
@@ -295,8 +435,4 @@
 .footer-section__back-to-top-icon {
   font-size: 26px;
   line-height: 1;
-}
-
-.footer-section__back-to-top:hover {
-  color: var(--color-stone);
 }

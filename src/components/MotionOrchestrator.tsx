@@ -15,6 +15,7 @@ import { footerRise } from '@/lib/animations/scenes/footerRise';
 import { galleryHorizontal } from '@/lib/animations/scenes/galleryHorizontal';
 import { headerContrast } from '@/lib/animations/scenes/headerContrast';
 import { heroBackdrop } from '@/lib/animations/scenes/heroBackdrop';
+import { heroMobilePan } from '@/lib/animations/scenes/heroMobilePan';
 import { heroParallax } from '@/lib/animations/scenes/heroParallax';
 import { processCascade } from '@/lib/animations/scenes/processCascade';
 import { scrollArrow } from '@/lib/animations/scenes/scrollArrow';
@@ -70,6 +71,12 @@ export function MotionOrchestrator() {
       return;
     }
 
+    const testimonialsEl = getRequiredDescendant<HTMLElement>(
+      document,
+      '#depoimentos',
+      'testimonials section',
+    );
+
     const heroTitleEl = getRequiredDescendant<HTMLElement>(
       hero.headerGroupEl,
       '.hero-section__title',
@@ -120,7 +127,7 @@ export function MotionOrchestrator() {
             scrollArrow(
               scrollArrowHandle.el,
               gallery.sectionEl,
-              gallery.trackEl,
+              testimonialsEl,
               footer.sectionEl,
             ),
           ),
@@ -132,7 +139,43 @@ export function MotionOrchestrator() {
           }
         };
       },
-      mobile: () => {},
+      mobile: () => {
+        const cleanups = [
+          // Same pinned text reveal as desktop — blocks scrub in via opacity/y.
+          runScene(about.sectionEl, () =>
+            aboutReveal(about.sectionEl, about.blockEls),
+          ),
+          runScene(hero.sectionEl, () =>
+            heroMobilePan(hero.imageEl, hero.sectionEl, about.sectionEl),
+          ),
+          // Per-card viewport reveals — each act fades in as it hits ~80vh.
+          runScene(process.sectionEl, () =>
+            processCascade(
+              process.sectionEl,
+              process.titleEl,
+              process.subtitleEl,
+              process.cardEls,
+              process.closingEl,
+              process.ctaEl,
+              { mode: 'per-card' },
+            ),
+          ),
+          runScene(gallery.sectionEl, () =>
+            scrollArrow(
+              scrollArrowHandle.el,
+              gallery.sectionEl,
+              testimonialsEl,
+              footer.sectionEl,
+            ),
+          ),
+        ];
+
+        return () => {
+          for (const cleanup of cleanups) {
+            cleanup();
+          }
+        };
+      },
       reduced: () => {},
     });
 

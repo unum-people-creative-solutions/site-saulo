@@ -23,11 +23,11 @@
 
 .lead-field__control:focus {
   outline: none;
-  border-bottom-color: var(--color-oak);
+  border-bottom-color: var(--color-stone);
 }
 
 .lead-field__control:focus-visible {
-  outline: 2px solid var(--color-oak);
+  outline: 2px solid var(--color-stone);
   outline-offset: 3px;
 }
 
@@ -62,7 +62,7 @@
 }
 
 .lead-field--error .lead-field__control {
-  border-bottom-color: var(--color-oak-deep);
+  border-bottom-color: var(--color-ink);
 }
 
 .lead-field__error {
@@ -72,5 +72,5 @@
   font-size: var(--type-meta-size);
   font-weight: var(--type-meta-weight);
   letter-spacing: var(--type-meta-tracking);
-  color: var(--color-oak-deep);
+  color: var(--color-ink);
 }

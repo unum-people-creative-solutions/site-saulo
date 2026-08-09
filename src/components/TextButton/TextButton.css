@@ -56,5 +56,5 @@
 }
 
 .text-button--onLight {
-  color: var(--color-oak, currentColor);
+  color: var(--color-ink);
 }

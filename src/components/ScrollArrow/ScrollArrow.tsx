@@ -13,9 +13,9 @@ export type ScrollArrowHandle = {
  * (data-state: down/right/hidden) as the page scrolls through the gallery
  * and footer.
  *
- * Glyph is the same Uncut Sans ↓ used by ScrollCue / back-to-top; contrast
- * against light and dark surfaces comes from a paper text-stroke halo
- * under an ink fill (same idea as `public/cursors/plus*.svg`).
+ * Glyph is the same Uncut Sans ↓ used by ScrollCue / back-to-top. Contrast
+ * against the pixels under the arrow uses `mix-blend-mode: difference`
+ * (see ScrollArrow.css) — no painted halo.
  */
 export const ScrollArrow = forwardRef<ScrollArrowHandle>(function ScrollArrow(
   _props,
