@@ -18,7 +18,13 @@
  */
 .hero-section__backdrop {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  /* Lock to the large viewport (URL bar hidden) so Chrome/Safari toolbar
+     show/hide does not recrop object-fit: cover on the shared video. */
+  height: 100vh;
+  height: 100lvh;
   z-index: 0;
   pointer-events: none;
   background: var(--color-ink, #130f0b);
