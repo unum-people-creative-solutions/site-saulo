@@ -50,14 +50,14 @@ describe('HeroMedia', () => {
 
     expect(container.querySelector('img')).toBeNull();
     expect(container.querySelectorAll('video')).toHaveLength(1);
-    expect(container.querySelector('canvas.hero-section__loop-frame')).not.toBeNull();
+    expect(container.querySelector('video')).toHaveAttribute('loop');
     expect(container.querySelector('source')).toHaveAttribute(
       'src',
       '/media/hero-video.mp4',
     );
   });
 
-  it('marks the video ready after loadeddata bootstrap', async () => {
+  it('marks the video ready and plays it after loadeddata', async () => {
     mockMatchMedia(false);
 
     const { container } = render(<HeroMedia />);
@@ -68,22 +68,33 @@ describe('HeroMedia', () => {
       return el as HTMLVideoElement;
     });
 
-    Object.defineProperty(video, 'videoWidth', { value: 16, configurable: true });
-    Object.defineProperty(video, 'videoHeight', { value: 9, configurable: true });
-    Object.defineProperty(video, 'seeking', { value: false, configurable: true });
-    vi.spyOn(video, 'pause').mockImplementation(() => undefined);
-    vi.spyOn(video, 'play').mockResolvedValue(undefined);
-
-    const canvas = container.querySelector('canvas');
-    expect(canvas).not.toBeNull();
-    vi.spyOn(canvas!, 'getContext').mockReturnValue({
-      drawImage: vi.fn(),
-    } as unknown as CanvasRenderingContext2D);
+    const playSpy = vi.spyOn(video, 'play').mockResolvedValue(undefined);
 
     video.dispatchEvent(new Event('loadeddata'));
 
     await waitFor(() => {
       expect(video).toHaveAttribute('data-ready', 'true');
+    });
+    expect(playSpy).toHaveBeenCalled();
+  });
+
+  it('marks the video as failed when play() rejects', async () => {
+    mockMatchMedia(false);
+
+    const { container } = render(<HeroMedia />);
+
+    const video = await waitFor(() => {
+      const el = container.querySelector('video');
+      expect(el).not.toBeNull();
+      return el as HTMLVideoElement;
+    });
+
+    vi.spyOn(video, 'play').mockRejectedValue(new Error('playback failed'));
+
+    video.dispatchEvent(new Event('loadeddata'));
+
+    await waitFor(() => {
+      expect(container.querySelector('video')).toBeNull();
     });
   });
 

@@ -32,6 +32,7 @@ Abra [http://localhost:3000](http://localhost:3000).
 | `npm run test:watch` | Vitest em modo watch |
 | `npm run test:e2e` | Playwright interceptado (`tests/e2e/`) — 5 device projects |
 | `npm run test:e2e:real` | Playwright **sem mock**, contra o CRM real (`tests/e2e/real/`) — opt-in, não roda no gate padrão |
+| `npm run make:hero-loop -- <input.mp4>` | Reencoda um clipe qualquer num ping-pong (forward + reverse) e grava em `public/media/hero-video.mp4` (ou `--out`) — usar sempre que o vídeo do Hero for substituído; ver docstring de `scripts/make-hero-loop.py` |
 
 Observação: a suíte padrão de Playwright sobe um servidor dedicado em `localhost:3100` com `NEXT_PUBLIC_E2E=1` e `next start`, evitando que overlays do `next dev` contaminem a ordem de tab/foco dos cenários de motion.
 
@@ -60,11 +61,13 @@ Self-hosted via `next/font/local`, sem requisição a CDN externo em runtime:
 
 | Asset | Estado |
 |---|---|
-| `hero-video.mp4` | ✅ publicado (soft-loop; sem imagem estática de fallback — reduced-motion/saveData/erro de vídeo mostram só o backdrop de tinta) |
+| `hero-video.mp4` | ✅ publicado (ping-pong loop nativo — ver `scripts/make-hero-loop.py`; sem imagem estática de fallback — reduced-motion/saveData/erro de vídeo mostram só o backdrop de tinta) |
 | `footer.jpg` | ✅ publicado |
 | `processo.png` | ✅ publicado (scrim flat sem blur) |
 | `galeria/` | pasta da galeria (placeholders até o grid final do cliente) |
 | `depoimentos/` | pasta dos avatares de depoimento (placeholders) |
+
+`hero-video.mp4` é um clipe de fundo com movimento orgânico e não-cíclico (folhagem ao vento) — típico de vídeo gerado por IA (Veo/Gemini e afins), cujo último frame quase nunca fecha com o primeiro. Um freeze-frame/crossfade em runtime (abordagem antiga, removida) só disfarça diferenças de exposição, não de conteúdo/posição — com um clipe assim, o loop **trava visivelmente**. A correção definitiva é assar um ping-pong (forward + reverse) no próprio arquivo via `scripts/make-hero-loop.py`: o último frame do arquivo final fica a um passo de reprodução do frame 0 nos dois sentidos, então o `<video loop>` nativo do navegador fecha sem nenhuma emenda perceptível — sem JS, canvas ou pausa. Sempre que o cliente enviar um vídeo novo para o Hero, rodar `npm run make:hero-loop -- <arquivo-novo.mp4>` antes de publicar.
 
 ### Placeholders / pendências do cliente
 

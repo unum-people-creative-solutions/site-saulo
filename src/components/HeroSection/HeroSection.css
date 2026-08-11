@@ -68,27 +68,6 @@
   opacity: 1;
 }
 
-/*
- * Soft-loop: keep the video fully opaque underneath. Only the canvas
- * (frame 0) fades in on top — fading the video out at the same time let
- * the ink backdrop bleed through and read as a dark dip.
- */
-.hero-section__loop-frame {
-  z-index: 2;
-  opacity: 0;
-  transition: opacity 0.8s ease;
-  pointer-events: none;
-}
-
-.hero-section__loop-frame[data-active='true'] {
-  opacity: 1;
-}
-
-/* Instant canvas hide after seek — video is already on matching frame 0. */
-.hero-section__loop-frame[data-loop-snap='true'] {
-  transition: none;
-}
-
 .hero-section__scrim {
   position: absolute;
   inset: 0;
