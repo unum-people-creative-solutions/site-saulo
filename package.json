@@ -11,7 +11,8 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test --pass-with-no-tests",
     "test:e2e:real": "playwright test --config playwright.real.config.ts --pass-with-no-tests",
-    "generate:favicon": "python3 scripts/generate-favicon.py"
+    "generate:favicon": "python3 scripts/generate-favicon.py",
+    "make:hero-loop": "python3 scripts/make-hero-loop.py"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
