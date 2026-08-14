@@ -87,13 +87,16 @@ describe('HeroSection', () => {
 
     const hero = container.querySelector('#hero');
     const backdrop = container.querySelector('.hero-section__backdrop');
+    const frame = container.querySelector('.hero-section__frame');
     const imageLayer = container.querySelector('.hero-section__image-layer');
 
     expect(hero).not.toBeNull();
     expect(backdrop).not.toBeNull();
+    expect(frame).not.toBeNull();
     expect(imageLayer).not.toBeNull();
     expect(hero?.contains(backdrop)).toBe(false);
-    expect(backdrop?.contains(imageLayer)).toBe(true);
+    expect(backdrop?.contains(frame)).toBe(true);
+    expect(frame?.contains(imageLayer)).toBe(true);
   });
 });
 

@@ -83,3 +83,17 @@
     gap: var(--spacing-48);
   }
 }
+
+@media (min-width: 1024px) {
+  .about-section {
+    box-sizing: border-box;
+    height: 100svh;
+    max-height: 100svh;
+  }
+
+  .about-section__inner {
+    box-sizing: border-box;
+    min-height: 0;
+    height: 100%;
+  }
+}

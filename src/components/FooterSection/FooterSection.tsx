@@ -71,8 +71,9 @@ export const FooterSection = forwardRef<FooterSectionHandle>(function FooterSect
         <div className="footer-section__middle">
           <nav className="footer-section__nav" aria-label="Navegação">
             <ul className="footer-section__nav-list">
-              {navLinks.map(({ href, label }) => (
+              {navLinks.map(({ href, label }, index) => (
                 <li key={href}>
+                  {index > 0 ? ', ' : null}
                   <a href={href}>{label}</a>
                 </li>
               ))}

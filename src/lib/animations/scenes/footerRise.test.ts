@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it } from 'vitest';
 
 import { gsap, ScrollTrigger } from '../gsap-context';
-import { footerRise } from './footerRise';
+import { footerRise, START_ABOVE_FOOTER_RATIO } from './footerRise';
 
 function mockRect(
   el: HTMLElement,
@@ -18,15 +18,11 @@ function mockRect(
 
 function buildFooterDom({
   titleOffsetFromSectionTop = 150,
-  bridgePaddingPx = 320,
 }: {
   titleOffsetFromSectionTop?: number;
-  bridgePaddingPx?: number;
 } = {}) {
   const sectionEl = document.createElement('footer');
   const titleEl = document.createElement('h2');
-  const testimonialsEl = document.createElement('section');
-  testimonialsEl.id = 'depoimentos';
 
   // top:1000 (not 0) — 'top bottom'/'top center' resolve to scrollY values
   // *ahead* of the test's initial scrollY:0, so the trigger starts unstarted
@@ -48,24 +44,10 @@ function buildFooterDom({
     height: 48,
   });
 
-  const originalGetComputedStyle = window.getComputedStyle.bind(window);
-  vi.spyOn(window, 'getComputedStyle').mockImplementation((el) => {
-    const style = originalGetComputedStyle(el);
-    if (el !== testimonialsEl) return style;
-
-    return new Proxy(style, {
-      get(target, prop, receiver) {
-        if (prop === 'paddingBottom') return `${bridgePaddingPx}px`;
-        const value = Reflect.get(target, prop, receiver);
-        return typeof value === 'function' ? value.bind(target) : value;
-      },
-    });
-  });
-
   sectionEl.append(titleEl);
-  document.body.append(testimonialsEl, sectionEl);
+  document.body.append(sectionEl);
 
-  return { sectionEl, titleEl, titleOffsetFromSectionTop, bridgePaddingPx };
+  return { sectionEl, titleEl, titleOffsetFromSectionTop };
 }
 
 describe('footerRise', () => {
@@ -90,33 +72,21 @@ describe('footerRise', () => {
     expect(ScrollTrigger.getAll().length).toBe(before + 1);
   });
 
-  it('starts the title in the bridge, closer to the footer than to the widget', () => {
+  it('starts the title already visible in depoimentos, in the lower third of the viewport', () => {
     const els = buildFooterDom({
       titleOffsetFromSectionTop: 160,
-      bridgePaddingPx: 320,
     });
 
     footerRise(els.sectionEl, els.titleEl);
 
-    // titleOffset + START_ABOVE_FOOTER (128) = 160 + 128 = 288 upward
-    const expectedStart = -(els.titleOffsetFromSectionTop + 128);
+    const expectedStart = -(
+      els.titleOffsetFromSectionTop +
+      Math.round(window.innerHeight * START_ABOVE_FOOTER_RATIO)
+    );
     expect(gsap.getProperty(els.titleEl, 'y')).toBeCloseTo(expectedStart, 0);
     expect(gsap.getProperty(els.titleEl, 'color')).toBe('rgb(19, 15, 11)');
     expect(els.titleEl.style.position).toBe('');
     expect(els.titleEl.style.visibility).toBe('');
     expect(els.titleEl.style.opacity).toBe('');
-  });
-
-  it('clamps the start so a short bridge still keeps a gap from the widget', () => {
-    const els = buildFooterDom({
-      titleOffsetFromSectionTop: 160,
-      bridgePaddingPx: 80,
-    });
-
-    footerRise(els.sectionEl, els.titleEl);
-
-    // bridge 80 − min gap 32 = 48 above footer (not the full 128)
-    const expectedStart = -(els.titleOffsetFromSectionTop + 48);
-    expect(gsap.getProperty(els.titleEl, 'y')).toBeCloseTo(expectedStart, 0);
   });
 });

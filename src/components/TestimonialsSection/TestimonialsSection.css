@@ -2,14 +2,34 @@
   background: var(--color-paper, #eeece9);
   color: var(--color-fg-on-light, #130f0b);
   /*
-   * Extra bottom padding is the bridge where "Iniciar um contato." first
-   * appears — on this section's paper, closer to the rising footer than to
-   * the testimonials widget. footerRise.ts reads this paddingBottom.
+   * Mobile keeps extra bottom padding as the bridge where
+   * "Iniciar um contato." first appears. Desktop (100svh) parks the CTA
+   * in the lower third via footerRise, so this padding is unused there.
    */
   padding:
     clamp(5rem, 12vh, 8rem)
     var(--spacing-32, 32px)
     clamp(10rem, 36vh, 22rem);
+}
+
+@media (min-width: 1024px) {
+  .testimonials-section {
+    box-sizing: border-box;
+    height: 100svh;
+    min-height: 100svh;
+    max-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+    padding:
+      var(--section-frame-block, 7.5vh)
+      var(--section-frame-inline, 7.5vw);
+  }
+
+  .testimonials-section__inner {
+    transform: translateY(-8vh);
+  }
 }
 
 .testimonials-section__inner {

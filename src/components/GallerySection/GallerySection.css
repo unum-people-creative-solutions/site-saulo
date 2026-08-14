@@ -1,8 +1,9 @@
 .gallery-section {
-  --gallery-pad-top: clamp(4.5rem, 12vh, 6.5rem);
-  --gallery-pad-bottom: clamp(1.5rem, 4vh, 2.5rem);
+  --gallery-pad-top: var(--section-frame-block, 7.5vh);
+  --gallery-pad-bottom: var(--section-frame-block, 7.5vh);
+  --gallery-pad-inline: var(--section-frame-inline, 7.5vw);
   --gallery-card-gap: var(--spacing-24, 24px);
-  --gallery-track-gap: var(--spacing-64, 64px);
+  --gallery-track-gap: calc(var(--spacing-64, 64px) * 2.2);
   /* Content height of the track — used to derive card widths so the
      horizontal strip is wider than the viewport (scroll/scrub works). */
   --gallery-track-h: calc(
@@ -27,11 +28,13 @@
   align-items: stretch;
   gap: var(--gallery-track-gap);
   overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
+  /* Free pan on touch. Mandatory snap + start-align yanked cards back to
+     the viewport's left edge — and on mobile the portraits are wider than
+     the screen, so the swipe could never rest mid-image. */
+  scroll-snap-type: none;
   padding:
     var(--gallery-pad-top)
-    var(--spacing-32, 32px)
+    var(--gallery-pad-inline)
     var(--gallery-pad-bottom);
   -webkit-overflow-scrolling: touch;
 }
@@ -43,7 +46,6 @@
  */
 .gallery-section__track[data-motion-driven='true'] {
   overflow: visible;
-  scroll-snap-type: none;
 }
 
 .gallery-section__track:focus-visible {
@@ -55,7 +57,6 @@
 
 .gallery-card {
   flex: 0 0 auto;
-  scroll-snap-align: start;
   height: 100%;
   min-width: 0;
   margin: 0;
@@ -91,8 +92,10 @@
 
 /* 2) Stack — two landscapes; width from half-height × 16/10 */
 .gallery-card--stack {
+  --gallery-stack-gap: calc(var(--gallery-card-gap, 24px) * 4.4);
+  gap: var(--gallery-stack-gap);
   width: calc(
-    (var(--gallery-track-h) - var(--gallery-card-gap)) / 2 * 16 / 10
+    (var(--gallery-track-h) - var(--gallery-stack-gap)) / 2 * 16 / 10
   );
 }
 
@@ -102,9 +105,9 @@
   min-height: 0;
 }
 
-/* 3) Quote — text + reduced image (half the previous column width) */
+/* 3) Quote — text + image at 40% the width of the photo columns */
 .gallery-card--quote {
-  width: min(16vw, 12rem);
+  width: calc(var(--gallery-track-h) * 3 / 4 * 0.4);
   justify-content: space-between;
 }
 

@@ -19,6 +19,7 @@ import { heroMobilePan } from '@/lib/animations/scenes/heroMobilePan';
 import { heroParallax } from '@/lib/animations/scenes/heroParallax';
 import { processCascade } from '@/lib/animations/scenes/processCascade';
 import { scrollArrow } from '@/lib/animations/scenes/scrollArrow';
+import { sectionSnap } from '@/lib/animations/scenes/sectionSnap';
 import { stickyHeader } from '@/lib/animations/scenes/stickyHeader';
 
 function getRequiredDescendant<T extends HTMLElement>(
@@ -131,6 +132,7 @@ export function MotionOrchestrator() {
               footer.sectionEl,
             ),
           ),
+          runScene(document.documentElement, () => sectionSnap()),
         ];
 
         return () => {
@@ -147,6 +149,9 @@ export function MotionOrchestrator() {
           ),
           runScene(hero.sectionEl, () =>
             heroMobilePan(hero.imageEl, hero.sectionEl, about.sectionEl),
+          ),
+          runScene(hero.headerGroupEl, () =>
+            stickyHeader(hero.sectionEl, heroTitleEl, heroCtaEl, 0.22),
           ),
           // Per-card viewport reveals — each act fades in as it hits ~80vh.
           runScene(process.sectionEl, () =>

@@ -11,6 +11,19 @@
   --motion-stagger: 100ms;
   --motion-header: 400ms cubic-bezier(0.16, 1, 0.3, 1);
 
+  /* White passe-partout around Hero / Processo media (~7.5% of the viewport). */
+  --section-frame-inline: 7.5vw;
+  --section-frame-block: 7.5vh;
+
+  /* Fixed header chrome. Padding is tight so the wordmark sits on the
+     frame; --header-clearance is the Y that in-flow titles (footer CTA)
+     must start below so they never sit under the lockup. */
+  --header-padding-block: 16px;
+  --header-clearance: calc(
+    var(--section-frame-block) + var(--header-padding-block) + 1.25rem +
+      var(--spacing-24, 24px)
+  );
+
   /* Scrims */
   --scrim-read: linear-gradient(to top, rgba(19, 15, 11, 0.7), transparent);
   --scrim-process: radial-gradient(circle, rgba(19, 15, 11, 0.55), transparent 70%);

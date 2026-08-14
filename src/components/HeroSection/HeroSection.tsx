@@ -90,10 +90,12 @@ export const HeroSection = forwardRef<HeroSectionHandle>(function HeroSection(
         className="hero-section__backdrop"
         aria-hidden="true"
       >
-        <div ref={imageRef} className="hero-section__image-layer">
-          <HeroMedia />
+        <div className="hero-section__frame">
+          <div ref={imageRef} className="hero-section__image-layer">
+            <HeroMedia />
+          </div>
+          <div className="hero-section__scrim" />
         </div>
-        <div className="hero-section__scrim" />
       </div>
 
       <section ref={sectionRef} id="hero" className="hero-section">
