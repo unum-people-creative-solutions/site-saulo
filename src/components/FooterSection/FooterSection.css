@@ -41,13 +41,27 @@
   min-height: 100svh;
   gap: clamp(24px, 4vh, 48px);
   color: var(--color-fg-on-dark);
-  /* padding-top clears the site's fixed header (~107px), which stays
-     pinned on top of every section, including this one.
+  /* padding-top clears the fixed header (frame + chrome + lockup + gap).
      padding-bottom (~10% of the viewport) keeps air between the wordmark
      and the end of the page. */
-  padding: clamp(130px, 16vh, 170px) var(--spacing-32) 10svh;
+  padding: var(--header-clearance, 7.5vh) var(--spacing-32) 10svh;
   /* 40% opaque ink film over the footer photo. */
   background: rgba(19, 15, 11, 0.4);
+}
+
+@media (min-width: 1024px) {
+  .footer-section {
+    box-sizing: border-box;
+    height: 100svh;
+    min-height: 100svh;
+    max-height: 100svh;
+  }
+
+  .footer-section__scrim {
+    box-sizing: border-box;
+    height: 100%;
+    min-height: 100%;
+  }
 }
 
 .footer-section__title {
@@ -86,10 +100,11 @@
   margin: 0;
   padding: 0;
   list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: clamp(24px, 4vw, 48px);
+  text-align: center;
+}
+
+.footer-section__nav-list li {
+  display: inline;
 }
 
 .footer-section__nav-list a {
@@ -277,7 +292,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: flex-end;
-  justify-content: flex-start;
+  justify-content: flex-end;
   gap: var(--spacing-32);
   /* Room for the absolutely centered back-to-top cue. */
   min-height: 4.5rem;
@@ -295,9 +310,8 @@
 @media (max-width: 1023px) {
   .footer-section__scrim {
     gap: var(--spacing-16);
-    /* Header is shorter on mobile; keep min-height but tighten the frame. */
     padding:
-      clamp(72px, 10vh, 96px)
+      var(--header-clearance, 7.5vh)
       var(--spacing-24)
       clamp(16px, 3vh, 32px);
   }
@@ -308,10 +322,6 @@
 
   .footer-section__middle {
     gap: var(--spacing-24);
-  }
-
-  .footer-section__nav-list {
-    gap: var(--spacing-16) var(--spacing-24);
   }
 
   .footer-section__columns {

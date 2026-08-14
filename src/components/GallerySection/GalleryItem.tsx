@@ -85,7 +85,7 @@ export function GalleryItem({ item }: GalleryItemProps) {
           image={item.image}
           width={isPortrait ? 480 : 720}
           height={isPortrait ? 640 : 450}
-          sizes="(max-width: 768px) 40vw, 14vw"
+          sizes="(max-width: 768px) 40vw, 16vw"
         />
       </figure>
     </article>

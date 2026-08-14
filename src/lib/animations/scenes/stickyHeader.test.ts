@@ -76,6 +76,19 @@ describe('stickyHeader', () => {
     ctaEl.remove();
   });
 
+  it('accepts a smaller startRatio for mobile so the header sits higher on first paint', () => {
+    const { heroSectionEl, headerEl, ctaEl } = makeEls();
+
+    stickyHeader(heroSectionEl, headerEl, ctaEl, 0.22);
+
+    const expectedStart = Math.round(window.innerHeight * 0.22);
+    expect(gsap.getProperty(headerEl, 'y')).toBeCloseTo(expectedStart, 0);
+
+    heroSectionEl.remove();
+    headerEl.remove();
+    ctaEl.remove();
+  });
+
   it('holds y:0 once the scrub range is exceeded, and reverses cleanly scrolling back', () => {
     const { heroSectionEl, headerEl, ctaEl } = makeEls();
 

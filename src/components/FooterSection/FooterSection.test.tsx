@@ -75,6 +75,10 @@ describe('FooterSection', () => {
       '#galeria',
     );
 
+    expect(screen.getByRole('navigation', { name: 'Navegação' })).toHaveTextContent(
+      'SOBRE, PROCESSO, GALERIA',
+    );
+
     expect(screen.queryByText('Navegação')).toBeNull();
     expect(
       screen.getByRole('navigation', { name: 'Navegação' }),
