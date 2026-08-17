@@ -98,8 +98,7 @@
   display: flex;
   flex-direction: column;
   min-height: 100svh;
-  width: min(100%, 1440px);
-  margin-inline: auto;
+  width: 100%;
   padding:
     calc(var(--section-frame-block, 7.5vh) + var(--header-padding-block, 16px))
     calc(var(--section-frame-inline, 7.5vw) + clamp(24px, 7vw, 120px))
@@ -173,14 +172,13 @@
 
 .hero-section__phrase {
   margin: 0;
-  width: min(46%, 32rem);
-  max-width: 100%;
+  width: min(60%, 64rem);
   margin-inline-start: 40%;
   text-align: left;
   font-family: var(--font-serif), ui-serif, Georgia, serif;
   font-style: italic;
   font-weight: var(--type-hero-weight, 400);
-  font-size: var(--type-hero-size, clamp(22px, 1.9vw, 30px));
+  font-size: var(--type-hero-size, clamp(16px, 1.4vw, 22px));
   line-height: 1.35;
   color: var(--color-fg-on-dark, #fff);
 }
@@ -214,10 +212,29 @@
     );
   }
 
+  /*
+   * Keep the header on the photo matte (7.5vw). Drop the extra 16px
+   * inline padding so the lockup uses the full framed width, and size
+   * the wordmark with cqi so it fills that box without crossing the mat.
+   */
   .hero-section__header {
     flex-direction: column;
-    align-items: flex-start;
-    padding: var(--header-padding-block, 16px) var(--spacing-16, 16px);
+    align-items: center;
+    padding: var(--header-padding-block, 16px) 0;
+    min-width: 0;
+    container-type: inline-size;
+  }
+
+  .hero-section__header-group,
+  .hero-section__title,
+  .hero-section__header .wordmark {
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .hero-section__header .wordmark {
+    /* 16px lockup is ~306px — 5.2cqi matches the framed width at 360px. */
+    font-size: clamp(12px, 5.2cqi, 16px);
   }
 
   .hero-section__phrase-wrap {

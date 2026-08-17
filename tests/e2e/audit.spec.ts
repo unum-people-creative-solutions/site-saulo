@@ -66,6 +66,42 @@ async function expectNoSeriousOrCriticalViolations(page: Page) {
   ).toEqual([]);
 }
 
+for (const width of [320, 360] as const) {
+  test(`header lockup stays inside the header and viewport at ${width}px`, async ({
+    page,
+  }) => {
+    await disableCookieBanner(page);
+    await page.setViewportSize({ width, height: 800 });
+    await page.goto('/');
+    await page.waitForLoadState('networkidle');
+
+    const box = await page.evaluate(() => {
+      const header = document.querySelector('.hero-section__header');
+      const lockup = document.querySelector(
+        '.hero-section__header .wordmark__lockup',
+      );
+      if (!header || !lockup) {
+        return null;
+      }
+      const headerRect = header.getBoundingClientRect();
+      const lockupRect = lockup.getBoundingClientRect();
+      return {
+        headerLeft: headerRect.left,
+        headerRight: headerRect.right,
+        lockupLeft: lockupRect.left,
+        lockupRight: lockupRect.right,
+        innerWidth: window.innerWidth,
+      };
+    });
+
+    expect(box).not.toBeNull();
+    expect(box!.headerLeft).toBeGreaterThanOrEqual(-1);
+    expect(box!.headerRight).toBeLessThanOrEqual(box!.innerWidth + 1);
+    expect(box!.lockupLeft).toBeGreaterThanOrEqual(box!.headerLeft - 1);
+    expect(box!.lockupRight).toBeLessThanOrEqual(box!.headerRight + 1);
+  });
+}
+
 for (const width of VIEWPORTS) {
   test(`TASK-PLS-004: no horizontal overflow at ${width}px`, async ({ page }) => {
     await disableCookieBanner(page);

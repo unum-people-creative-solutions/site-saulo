@@ -43,7 +43,7 @@
   --type-display-tracking: -0.01em;
 
   --type-hero-weight: 400;
-  --type-hero-size: clamp(22px, 1.9vw, 30px);
+  --type-hero-size: clamp(16px, 1.4vw, 22px);
 
   --type-label-weight: 400;
   --type-label-size: 13px;
