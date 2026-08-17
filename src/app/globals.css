@@ -64,6 +64,17 @@
   --cursor-plus: url('/cursors/plus-circle.svg') 16 16, crosshair;
 }
 
+@media (max-width: 900px) {
+  :root {
+    /* Header has padding-block on both sides; the base token only
+       counted one, so the footer CTA sat ~4px under the lockup. */
+    --header-clearance: calc(
+      var(--section-frame-block) + (2 * var(--header-padding-block)) + 1.25rem +
+        var(--spacing-48, 48px)
+    );
+  }
+}
+
 @theme static {
   --color-ink: #130F0B;
   --color-ink-soft: #1C1713;

@@ -16,14 +16,14 @@
  * (`aria-hidden`) and has no image of its own, so it doesn't read as a
  * competing content block — just a color wash the layout lives on.
  *
- * The scrim (not the footer) carries `min-height: 100svh` +
- * `justify-content: space-between`, fitting the title, the nav columns,
- * and the bottom bar into one screen — reaching the bottom of the page
- * shows the whole footer *and* the whole image at once. `.footer-section`
- * just wraps around it, sized to match. Only the title scrubs into place
- * (see footerRise.ts): it starts offset upward, as if it still belonged to
- * the section above, and settles into its resting spot exactly as the
- * footer fills the whole screen.
+ * The scrim (not the footer) carries `min-height: 100svh`. Title and nav
+ * stay grouped at the top (below the header clearance); leftover space
+ * sits above the bottom bar so the wordmark stays at the end of the
+ * page. Reaching the bottom shows the whole footer *and* the whole
+ * image at once. `.footer-section` just wraps around it, sized to match.
+ * Only the title scrubs into place (see footerRise.ts): it starts offset
+ * upward, as if it still belonged to the section above, and settles into
+ * its resting spot exactly as the footer fills the whole screen.
  */
 .footer-section {
   position: relative;
@@ -37,7 +37,7 @@
 .footer-section__scrim {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   min-height: 100svh;
   gap: clamp(24px, 4vh, 48px);
   color: var(--color-fg-on-dark);
@@ -160,7 +160,7 @@
   margin: 0 0 var(--spacing-16);
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
   font-weight: 600;
-  font-size: var(--type-label-size);
+  font-size: var(--type-meta-size, 12px);
   letter-spacing: var(--type-label-tracking);
   text-transform: uppercase;
   color: inherit;
@@ -182,7 +182,7 @@
   text-decoration: none;
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
   font-weight: var(--type-body-weight);
-  font-size: var(--type-body-size);
+  font-size: var(--type-meta-size, 12px);
   letter-spacing: var(--type-body-tracking);
 }
 
@@ -252,7 +252,7 @@
   text-decoration: none;
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
   font-weight: var(--type-body-weight);
-  font-size: var(--type-body-size);
+  font-size: var(--type-meta-size, 12px);
   letter-spacing: var(--type-body-tracking);
   line-height: 1.45;
 }
@@ -289,6 +289,7 @@
   width: 100%;
   max-width: 1440px;
   margin-inline: auto;
+  margin-top: auto;
   display: flex;
   flex-wrap: wrap;
   align-items: flex-end;
