@@ -160,7 +160,7 @@
   margin: 0 0 var(--spacing-16);
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
   font-weight: 600;
-  font-size: var(--type-label-size);
+  font-size: var(--type-meta-size, 12px);
   letter-spacing: var(--type-label-tracking);
   text-transform: uppercase;
   color: inherit;
@@ -182,7 +182,7 @@
   text-decoration: none;
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
   font-weight: var(--type-body-weight);
-  font-size: var(--type-body-size);
+  font-size: var(--type-meta-size, 12px);
   letter-spacing: var(--type-body-tracking);
 }
 
@@ -252,7 +252,7 @@
   text-decoration: none;
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
   font-weight: var(--type-body-weight);
-  font-size: var(--type-body-size);
+  font-size: var(--type-meta-size, 12px);
   letter-spacing: var(--type-body-tracking);
   line-height: 1.45;
 }
