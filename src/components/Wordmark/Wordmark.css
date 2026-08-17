@@ -2,6 +2,7 @@
   display: inline-flex;
   line-height: 0;
   --tracking-wordmark: 0.62em;
+  font-size: var(--type-wordmark-1-size, 15px);
 }
 
 /*
@@ -10,10 +11,8 @@
  * a single line of text) turns a wrapped second line into a catastrophe —
  * without a real line-height, the wrapped line has zero height and stacks
  * directly on top of the first, reading as garbled overlapping letters.
- * Tightening the tracking keeps it on one line instead of trying to fix
- * the wrap itself. `white-space: nowrap` (below) is the backstop in case
- * an even narrower device still doesn't fit — it overflows instead of
- * wrapping into that same overlap.
+ * Tightening the tracking keeps it on one line; HeroSection sizes the
+ * header wordmark with cqi so it stays inside the photo matte.
  */
 @media (max-width: 900px) {
   .wordmark {
@@ -23,6 +22,7 @@
 
 .wordmark__lockup {
   white-space: nowrap;
+  max-width: 100%;
 }
 
 .wordmark--stacked {
